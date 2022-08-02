@@ -1,0 +1,9 @@
+.box-dash{
+    width: 100%;
+    height: 65px;
+    background-color: rgb(39, 144, 170);
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    border-radius: 10px;
+}

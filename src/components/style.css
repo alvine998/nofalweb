@@ -1,0 +1,9 @@
+.h-100vh{
+    /* height: 100vh; */
+    height: 100%;
+}
+
+.centering{
+    margin-right: auto;
+    margin-left: auto;
+}

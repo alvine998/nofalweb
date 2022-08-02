@@ -1,0 +1,24 @@
+.bg-blue{
+    background-color: #3FD6B1;
+    height: 100vh;
+    padding-top: 50px;
+    padding-inline: 200px;
+}
+
+.box{
+    width: 100%;
+    height: 500px;
+    background-color: rgb(39, 144, 170);
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+}
+
+.box2{
+    width: 100%;
+    height: 500px;
+    background-color: white;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+}
