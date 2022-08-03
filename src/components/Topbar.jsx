@@ -26,10 +26,10 @@ export default function Topbar({ children }) {
     const [user, setuser] = useState()
 
     const getSession = async () => {
-        const mail = await localStorage.getItem('logSession')
-        console.log(mail);
-        setuser(mail)
-        if (mail == null) {
+        const data = await JSON.parse(localStorage.getItem('logSession'))
+        console.log(data);
+        setuser(data.name)
+        if (data == null) {
             navigate("/")
         }
     }
@@ -47,7 +47,7 @@ export default function Topbar({ children }) {
         <div>
             <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
                 <div class="container-fluid px-5">
-                    <a class="navbar-brand" href="#">CRM APP</a>
+                    <a class="navbar-brand" href="#">Rajawali-Pro</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

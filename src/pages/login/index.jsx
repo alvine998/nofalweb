@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { img1 } from "../../assets";
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
+import axios from "axios";
 
 export default function Login() {
   const [payload, setPayload] = useState()
@@ -11,41 +12,54 @@ export default function Login() {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
-  const setSession = async(mail) => {
-    await localStorage.setItem('logSession', mail)
+  const setSession = async (data, session) => {
+    await localStorage.setItem('logSession', JSON.stringify(data))
+    await localStorage.setItem('session', JSON.stringify(session))
   }
 
   const getSession = async () => {
-    const mail = await localStorage.getItem('logSession')
-    console.log(mail);
-    if (mail !== null) {
+    const data = await JSON.parse(localStorage.getItem('logSession'))
+    console.log(data);
+    if (data !== null) {
       navigate("/main/dashboard")
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getSession()
-  },[])
+  }, [])
 
-  const onLogin = (e) => {
-    e.preventDefault()
-    if (payload?.email === 'alvinecom@crmapp.id' && payload?.password === '12121212') {
+  const onLogin = async (e) => {
+    try {
+      e.preventDefault()
+      const payloadData = {
+        ...payload
+      }
+      console.log('====================================');
+      console.log(payloadData);
+      console.log('====================================');
+      const result = await axios.post(`http://localhost:6001/admins/auth`, payloadData, { withCredentials: false, headers: { 'Access-Control-Allow-Origin': '*' } })
+      if (result) {
+        Swal.fire({
+          text: "Login Successfull",
+          icon: "success"
+        })
+        console.log(result.data.result);
+        setSession(result.data.result, result.data.session)
+        navigate('/main/dashboard')
+        return
+      }
+
+    } catch (error) {
       Swal.fire({
-        text: "Login Successfull",
-        icon: "success"
-      })
-      setSession(payload?.email)
-      navigate('/main/dashboard')
-    } else {
-      Swal.fire({
-        text: "Login Failed",
+        text: "Email atau password salah!",
         icon: "error"
       })
       navigate('/')
-      console.log('====================================');
-      console.log(payload);
-      console.log('====================================');
+      console.log(error);
+      return
     }
+
   }
 
   return (
@@ -53,10 +67,10 @@ export default function Login() {
       <div className="row g-0">
         <div className="col">
           <div className="box">
-            <h2 className="text-center mt-5 text-white">CRMFYOU</h2>
+            <h2 className="text-center mt-5 text-white">RAJAWALI-PRO</h2>
             <div>
               <p className="text-white text-center">
-                Manage your data customer here!
+                Dashboard for administrator
               </p>
               <div>
                 <img src={img1} className="w-100 h-30" />
@@ -78,11 +92,11 @@ export default function Login() {
               </div>
               <button className="btn btn-primary w-100 mt-3" type={'submit'}>Login</button>
             </form>
-            <div className="mt-3">
+            {/* <div className="mt-3">
               <p className="text-center">
                 Didn't have account? <a href="/register" className="text-decoration-none text-primary">Register now!</a>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
