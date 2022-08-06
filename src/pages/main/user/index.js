@@ -80,19 +80,22 @@ const UserPage = () => {
                     </thead>
                     <tbody>
                         {
-                            user.map((data, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{data?.name}</td>
-                                    <td>{data?.phone}</td>
-                                    <td>{data?.address}</td>
-                                    <td>{data?.role == 'partner' ? 'Mitra' : 'Customer'}</td>
-                                    <td className='text-center'>{data?.description || "-"}</td>
-                                    <td className='text-center'>
-                                        <Button onClick={() => { setToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Non Aktifkan</Button>
-                                    </td>
-                                </tr>
-                            ))
+                            user.length > 0 ?
+                                user.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{data?.name}</td>
+                                        <td>{data?.phone}</td>
+                                        <td>{data?.address}</td>
+                                        <td>{data?.role == 'partner' ? 'Mitra' : 'Customer'}</td>
+                                        <td className='text-center'>{data?.description || "-"}</td>
+                                        <td className='text-center'>
+                                            <Button onClick={() => { setToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Non Aktifkan</Button>
+                                        </td>
+                                    </tr>
+                                )) : <div className='p-4'>
+                                    <p>Data tidak ditemukan</p>
+                                </div>
                         }
                     </tbody>
                 </Table>
