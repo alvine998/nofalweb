@@ -15,15 +15,12 @@ export default function Sidebar() {
       <div>
         <Accordion>
           <Accordion.Item eventKey="1">
-            <Accordion.Header>Product</Accordion.Header>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Product Data</a>
+            <Accordion.Header>Pengguna</Accordion.Header>
+            <Accordion.Body className={window.location.pathname == '/main/user' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/user' className='text-decoration-none text-black'>Data Pengguna</a>
             </Accordion.Body>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Product Report</a>
-            </Accordion.Body>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Product Stock</a>
+            <Accordion.Body className={window.location.pathname == '/main/user/banned' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/user/banned' className='text-decoration-none text-black'>Pengguna Ditolak</a>
             </Accordion.Body>
           </Accordion.Item>
 

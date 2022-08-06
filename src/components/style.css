@@ -7,3 +7,12 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.bg-primary-hover{
+    background-color: #fff;
+    transition: 0.3s all;
+}
+
+.bg-primary-hover:hover{
+    background-color: #0d6efd;
+}

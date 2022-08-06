@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect } from 'react';
 import Profile from './pages/main/settings/profile';
 import ErrorNotFounds from './pages/404';
+import BannedUser from './pages/main/user/banned';
+import UserPage from './pages/main/user';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path={"/verification"} element={<Verification />} />
         <Route path={"/main/dashboard"} element={<Dashboard />} />
         <Route path={"/main/settings/profile"} element={<Profile />} />
+        <Route path={"/main/user/banned"} element={<BannedUser />} />
+        <Route path={"/main/user"} element={<UserPage />} />
         <Route path='*' element={<ErrorNotFounds/>}/>
       </Routes>
     </BRouter>

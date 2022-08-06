@@ -6,6 +6,9 @@ import axios from 'axios'
 export default function Dashboard() {
   const [data, setData] = useState()
   const [users, setUsers] = useState([])
+  const [product, setProduct] = useState([])
+  const [services, setServices] = useState([])
+  const [partners, setPartners] = useState([])
 
   const getSession = async () => {
     const data = await JSON.parse(localStorage.getItem('logSession'))
@@ -21,7 +24,24 @@ export default function Dashboard() {
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setUsers(result.data)
-      console.log(result.data);
+
+      const resultProduct = await axios.get(`http://localhost:6001/products`, {
+        withCredentials: false,
+        headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
+      })
+      setProduct(resultProduct.data)
+
+      const resultServices = await axios.get(`http://localhost:6001/services/list`, {
+        withCredentials: false,
+        headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
+      })
+      setServices(resultServices.data)
+
+      const resultPartners = await axios.get(`http://localhost:6001/partners/list`, {
+        withCredentials: false,
+        headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
+      })
+      setPartners(resultPartners.data)
     } catch (error) {
 
     }
@@ -38,7 +58,7 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Users :</h5>
+                  <h5 className='text-white'>Pengguna :</h5>
                 </div>
                 <div className='col-md'>
                   <h5 className='text-white float-end'>{users.length}</h5>
@@ -50,10 +70,10 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Products :</h5>
+                  <h5 className='text-white'>Produk :</h5>
                 </div>
                 <div className='col-md'>
-                  <h5 className='text-white float-end'>50</h5>
+                  <h5 className='text-white float-end'>{product.length}</h5>
                 </div>
               </div>
             </div>
@@ -62,10 +82,10 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Users :</h5>
+                  <h5 className='text-white'>Jasa :</h5>
                 </div>
                 <div className='col-md'>
-                  <h5 className='text-white float-end'>20</h5>
+                  <h5 className='text-white float-end'>{services.length}</h5>
                 </div>
               </div>
             </div>
@@ -77,37 +97,19 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Merchants :</h5>
+                  <h5 className='text-white'>Mitra :</h5>
                 </div>
                 <div className='col-md'>
-                  <h5 className='text-white float-end'>10</h5>
+                  <h5 className='text-white float-end'>{partners.length}</h5>
                 </div>
               </div>
             </div>
           </div>
           <div className='col-md'>
-            <div className='box-dash'>
-              <div className='row'>
-                <div className='col-md'>
-                  <h5 className='text-white'>Transactions :</h5>
-                </div>
-                <div className='col-md'>
-                  <h5 className='text-white float-end'>100</h5>
-                </div>
-              </div>
-            </div>
+
           </div>
           <div className='col-md'>
-            <div className='box-dash'>
-              <div className='row'>
-                <div className='col-md'>
-                  <h5 className='text-white'>Profit :</h5>
-                </div>
-                <div className='col-md'>
-                  <h5 className='text-white float-end'>Rp 0</h5>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
