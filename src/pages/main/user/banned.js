@@ -46,7 +46,7 @@ const BannedUser = () => {
                 <Breadcrumb>
                     <Breadcrumb.Item href="/main/dashboard">Dashboard</Breadcrumb.Item>
                     <Breadcrumb.Item active>Pengguna</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Data Pengguna</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Pengguna Ditolak</Breadcrumb.Item>
                 </Breadcrumb>
                 <div className='row'>
                     <div className='col-md'>
