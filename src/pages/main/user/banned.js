@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav'
 import axios from 'axios'
 import { Breadcrumb, Button, Modal } from 'react-bootstrap'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const BannedUser = () => {
     const [user, setUser] = useState([])
@@ -14,6 +15,8 @@ const BannedUser = () => {
     const [dataToggle, setDataToggle] = useState()
     const [toggle, setToggle] = useState()
     const [session, setSession] = useState()
+
+    const navigate = useNavigate()
 
     const getSession = async () => {
         const data = await JSON.parse(localStorage.getItem('logSession'))
@@ -42,9 +45,9 @@ const BannedUser = () => {
     return (
         <>
             <Layout>
-                <h2 style={{ fontSize: 24 }}>Data Pengguna</h2>
+                <h2 style={{ fontSize: 24 }}>Pengguna Ditolak</h2>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="/main/dashboard">Dashboard</Breadcrumb.Item>
+                    <Breadcrumb.Item onClick={()=>navigate("/main/dashboard")}>Dashboard</Breadcrumb.Item>
                     <Breadcrumb.Item active>Pengguna</Breadcrumb.Item>
                     <Breadcrumb.Item active>Pengguna Ditolak</Breadcrumb.Item>
                 </Breadcrumb>

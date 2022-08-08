@@ -27,15 +27,18 @@ export default function Topbar({ children }) {
 
     const getSession = async () => {
         const data = await JSON.parse(localStorage.getItem('logSession'))
-        console.log(data);
-        setuser(data.name)
-        if (data == null) {
-            navigate("/")
+        const session = await JSON.parse(localStorage.getItem('session'))
+        console.log("Session : ", session);
+        if (!session) {
+            return navigate("/")
+        } else {
+            setuser(data.name)
         }
     }
 
     const removeSession = async () => {
         await localStorage.removeItem('logSession')
+        await localStorage.removeItem('session')
         navigate('/')
     }
 
@@ -59,24 +62,24 @@ export default function Topbar({ children }) {
                         <div className="d-flex">
                             <Modal show={toggle} onHide={() => setToggle(!toggle)}>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Sign Out</Modal.Title>
+                                    <Modal.Title>Logout</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>Do you want to leave ?</Modal.Body>
+                                <Modal.Body>Apakah kamu yakin ingin keluar dari dashboard admin ?</Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="warning" onClick={() => setToggle(!toggle)}>
-                                        Cancel
+                                        Kembali
                                     </Button>
                                     <Button variant="danger" onClick={removeSession}>
-                                        Leave
+                                        Ya
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
-                            <button class="btn btn-danger" onClick={() => setToggle(true)}>Sign Out</button>
+                            <button class="btn btn-danger btn-sm" onClick={() => setToggle(true)}>Keluar</button>
                         </div>
                     </div>
                 </div>
             </nav>
-            <div style={{marginTop:80}}>
+            <div style={{ marginTop: 80 }}>
                 {children}
             </div>
         </div>
