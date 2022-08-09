@@ -6,9 +6,9 @@ import './style.css'
 export default function Sidebar() {
   const [openKey, setOpenKey] = useState()
 
-  useEffect(()=>{
-    console.log("Open key: ",openKey);
-  },[])
+  useEffect(() => {
+    console.log("Open key: ", openKey);
+  }, [])
   return (
     <div className='bg-white w-100 h-100vh'>
       <center>
@@ -18,8 +18,18 @@ export default function Sidebar() {
         <a className='text-decoration-none text-black text-center' href="/main/dashboard"><h5>Dashboard</h5></a>
       </div>
       <div>
-        <Accordion alwaysOpen defaultActiveKey={window.location.pathname == '/main/user' ? ['1'] 
-        : window.location.pathname == '/main/user/banned' ? ['1'] : window.location.pathname == '/main/product' ? ['2'] : ['2'] }>
+        <Accordion alwaysOpen defaultActiveKey={
+          window.location.pathname == '/main/user' ? ['1']
+            : window.location.pathname == '/main/user/banned' ? ['1']
+              : window.location.pathname == '/main/product' ? ['2']
+                : window.location.pathname == '/main/product/verification' ? ['2']
+                : window.location.pathname == '/main/progress' ? ['3']
+                : window.location.pathname == '/main/progress/verification' ? ['3']
+                : window.location.pathname == '/main/services' ? ['4']
+                : window.location.pathname == '/main/services/verification' ? ['4']
+                  : window.location.pathname == '/main/settings/profile' ? ['5']
+                  : window.location.pathname == '/main/settings/security' ? ['5'] : ['']
+      }>
           <Accordion.Item eventKey={'1'}>
             <Accordion.Header>Pengguna</Accordion.Header>
             <Accordion.Body className={window.location.pathname == '/main/user' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
@@ -41,54 +51,32 @@ export default function Sidebar() {
           </Accordion.Item>
 
           <Accordion.Item eventKey={'3'}>
-            <Accordion.Header>Transaction</Accordion.Header>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Transaction Data</a>
+            <Accordion.Header>Progress</Accordion.Header>
+            <Accordion.Body className={window.location.pathname == '/main/progress' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/progress' className={window.location.pathname == '/main/progress' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Data Progress</a>
             </Accordion.Body>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Transaction Report</a>
+            <Accordion.Body className={window.location.pathname == '/main/progress/verification' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/progress/verification' className={window.location.pathname == '/main/progress/verification' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Verifikasi Progress</a>
             </Accordion.Body>
           </Accordion.Item>
 
           <Accordion.Item eventKey={'4'}>
-            <Accordion.Header>Customer</Accordion.Header>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Customer Data</a>
+            <Accordion.Header>Jasa</Accordion.Header>
+            <Accordion.Body className={window.location.pathname == '/main/services' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/services' className={window.location.pathname == '/main/services' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Data Jasa</a>
             </Accordion.Body>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Customer Report</a>
+            <Accordion.Body className={window.location.pathname == '/main/services/verification' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/services/verification' className={window.location.pathname == '/main/services/verification' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Verifikasi Jasa</a>
             </Accordion.Body>
           </Accordion.Item>
 
           <Accordion.Item eventKey={'5'}>
-            <Accordion.Header>Employee</Accordion.Header>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Employee Data</a>
-            </Accordion.Body>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Employee Division</a>
-            </Accordion.Body>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Employee Report</a>
-            </Accordion.Body>
-          </Accordion.Item>
-
-          <Accordion.Item eventKey={'6'}>
-            <Accordion.Header>Warehouse</Accordion.Header>
-            <Accordion.Body>
-              <a href='#report' className='text-decoration-none text-black'>Warehouse Report</a>
-            </Accordion.Body>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Warehouse Data</a>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey={'7'}>
             <Accordion.Header>Settings</Accordion.Header>
-            <Accordion.Body>
-              <a href='/main/settings/profile' className='text-decoration-none text-black'>Profile</a>
+            <Accordion.Body className={window.location.pathname == '/main/settings/profile' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/settings/profile' className={window.location.pathname == '/main/settings/profile' ?'text-decoration-none text-white' : 'text-decoration-none text-black'}>Profil</a>
             </Accordion.Body>
-            <Accordion.Body>
-              <a href='#data' className='text-decoration-none text-black'>Security</a>
+            <Accordion.Body className={window.location.pathname == '/main/settings/security' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+              <a href='/main/settings/security' className={window.location.pathname == '/main/settings/security' ?'text-decoration-none text-white' : 'text-decoration-none text-black'}>Kemanan</a>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

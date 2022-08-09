@@ -5,7 +5,7 @@ import axios from 'axios'
 import { toMoney } from '../../../utilities'
 import Swal from 'sweetalert2'
 
-const ProductPage = () => {
+const ProgressPage = () => {
     const [search, setSearch] = useState()
     const [session, setSession] = useState()
     const [product, setProduct] = useState([])
@@ -24,7 +24,7 @@ const ProductPage = () => {
 
     const getProduct = async (session) => {
         try {
-            const result = await axios.get(`http://localhost:6001/products/?search=${search || ''}&status=${status || ''}`, {
+            const result = await axios.get(`http://localhost:6001/progress/list?search=${search || ''}&verified=1`, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -42,11 +42,11 @@ const ProductPage = () => {
         <>
             <Layout>
                 <div>
-                    <h2 style={{ fontSize: 24 }}>Data Produk</h2>
+                    <h2 style={{ fontSize: 24 }}>Data Progress</h2>
                     <Breadcrumb>
                         <Breadcrumb.Item href="/main/dashboard">Dashboard</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Produk</Breadcrumb.Item>
-                        <Breadcrumb.Item active>Data Produk</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Progress</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Data Progress</Breadcrumb.Item>
                     </Breadcrumb>
                     <div className='row'>
                         <div className='col-md'>
@@ -67,12 +67,11 @@ const ProductPage = () => {
                         <thead>
                             <tr className='justify-content-center align-items-center'>
                                 <th>No</th>
-                                <th>Nama Produk</th>
-                                <th>Alamat</th>
-                                <th>Tipe</th>
-                                <th>LT / LB (m2)</th>
+                                <th className='text-center'>Product Id</th>
+                                <th className='text-center'>Tipe Produk</th>
                                 <th className='text-center'>Deskripsi</th>
-                                <th className='text-center'>No Sertifikat</th>
+                                <th className='text-center'>Tanggal Progress</th>
+                                <th className='text-center'>Gambar</th>
                                 <th className='text-center'>Aksi</th>
                             </tr>
                         </thead>
@@ -82,17 +81,15 @@ const ProductPage = () => {
                                     product.map((data, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{data?.title}</td>
-                                            <td>{data?.address}</td>
-                                            <td>{data?.type_name}</td>
-                                            <td>{data?.surface_area} / {data?.build_area}</td>
+                                            <td className='text-center'>{data?.product_id}</td>
+                                            <td className='text-center'>{data?.product_type}</td>
                                             <td className='text-center'>{data?.description || "-"}</td>
-                                            <td className='text-center'>{data?.certificate_no || "-"}</td>
+                                            <td className='text-center'>{data?.created_on.substr(0, 10) || "-"}</td>
                                             <td className='text-center'>
                                                 <Button onClick={() => { setToggle(true); setDataToggle(data) }} variant='primary' size='sm'>Lihat</Button>
-                                                &nbsp;
-                                                <Button className='mt-1' onClick={() => { setRejectToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Hapus</Button>
-
+                                            </td>
+                                            <td className='text-center'>
+                                                <Button className='' onClick={() => { setRejectToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Hapus</Button>
                                             </td>
                                         </tr>
                                     )) : <div className='p-4'>
@@ -112,10 +109,7 @@ const ProductPage = () => {
 const RejectProduct = ({ toggle, setToggle, data, active, session, reloadData }) => {
     const reject = async () => {
         try {
-            const payload = {
-                id: data?.id
-            }
-            const result = await axios.post(`http://localhost:6001/products/delete`, payload ,{withCredentials:false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }})
+            const result = await axios.delete(`http://localhost:6001/progress/delete?id=${data?.id}`, { withCredentials: false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' } })
             setToggle(!toggle)
             reloadData()
             Swal.fire({
@@ -136,12 +130,12 @@ const RejectProduct = ({ toggle, setToggle, data, active, session, reloadData })
             >
                 <Modal.Header >
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Hapus Produk
+                        Hapus Progress
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>
-                        Apakah anda yakin ingin menghapus produk {data?.title} ?
+                        Apakah anda yakin ingin menghapus progress ini ?
                     </p>
 
                 </Modal.Body>
@@ -168,29 +162,16 @@ const ViewProduct = ({ toggle, setToggle, data }) => {
             >
                 <Modal.Header >
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Detail Produk
+                        Detail Progress
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <img src={`${data?.image1 || ''}`} className='w-100' />
-                    <p>
-                        Nama Produk : {data?.title || '-'} <br />
-                        Alamat : {data?.address || '-'} <br />
-                        Tipe : {data?.type_name || '-'} <br />
-                        LT / LB (m2) : {(data?.surface_area || '-') + " / " + (data?.build_area || '-')} <br />
-                        No Sertifikat : {data?.certificate_no || '-'} <br />
-                        Fasilitas : {data?.facilities || '-'} <br />
-                        Fitur Utama : {data?.main_feature || '-'} <br />
-                        Area Parkir : {data?.parking_area || '-'} <br />
-                        Harga : Rp{toMoney(data?.price) || '-'} <br />
-                        Harga per meter : Rp{toMoney(data?.price_permeter) || '-'} <br />
-                        Lokasi Map : <a href={`https://www.google.com/maps/@${data?.latitude || ''},${data?.longitude || ''},13z`}>Lihat Lokasi</a> <br />
-                    </p>
-
+                    <img src={`${data?.images1 || ''}`} className='w-100' />
+                    <img src={`${data?.images2 || ''}`} className='w-100' />
+                    <img src={`${data?.images3 || ''}`} className='w-100' />
+                    <img src={`${data?.images4 || ''}`} className='w-100' />
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button variant='success' onClick={verification}>Verifikasi</Button>
-                    <Button variant='danger' onClick={active}>Tolak</Button> */}
                     <Button variant='warning' onClick={() => setToggle(!toggle)}>Tutup</Button>
                 </Modal.Footer>
             </Modal>
@@ -198,4 +179,4 @@ const ViewProduct = ({ toggle, setToggle, data }) => {
     )
 }
 
-export default ProductPage
+export default ProgressPage
