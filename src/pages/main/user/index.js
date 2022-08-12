@@ -24,7 +24,7 @@ const UserPage = () => {
 
     const getDataUser = async (session) => {
         try {
-            const result = await axios.get(`http://localhost:6001/users/list?search=${search || ''}&role=${role || ''}`, {
+            const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/users/list?search=${search || ''}&role=${role || ''}`, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -115,7 +115,7 @@ const BannedOne = ({ session, data, toggle, setToggle, reloadData }) => {
             deleted: 1
         }
         try {
-            const result = await axios.post(`http://localhost:6001/users/update/status`, payload, {
+            const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/users/update/status`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session.token, 'Access-Control-Allow-Origin': '*' }
             })

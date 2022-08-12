@@ -23,7 +23,7 @@ export default function Profile() {
       const payloadData = {
         ...payload
       }
-      const result = await axios.patch(`http://localhost:6001/admins/update`, payloadData, {
+      const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/admins/update`, payloadData, {
         withCredentials:false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })

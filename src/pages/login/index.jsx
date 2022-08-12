@@ -38,7 +38,7 @@ export default function Login() {
       console.log('====================================');
       console.log(payloadData);
       console.log('====================================');
-      const result = await axios.post(`http://localhost:6001/admins/auth`, payloadData, { withCredentials: false, headers: { 'Access-Control-Allow-Origin': '*' } })
+      const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/admins/auth`, payloadData, { withCredentials: false, headers: { 'Access-Control-Allow-Origin': '*' } })
       if (result) {
         Swal.fire({
           text: "Login Successfull",

@@ -19,25 +19,25 @@ export default function Dashboard() {
 
   const getDashboard = async (session) => {
     try {
-      const result = await axios.get(`http://localhost:6001/users/list`, {
+      const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/users/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setUsers(result.data)
 
-      const resultProduct = await axios.get(`http://localhost:6001/products`, {
+      const resultProduct = await axios.get(`https://api.rajawali-pro.kinikumuda.id/products`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setProduct(resultProduct.data)
 
-      const resultServices = await axios.get(`http://localhost:6001/services/list`, {
+      const resultServices = await axios.get(`https://api.rajawali-pro.kinikumuda.id/services/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setServices(resultServices.data)
 
-      const resultPartners = await axios.get(`http://localhost:6001/partners/list`, {
+      const resultPartners = await axios.get(`https://api.rajawali-pro.kinikumuda.id/partners/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })

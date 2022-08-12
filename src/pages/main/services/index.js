@@ -24,7 +24,7 @@ const ServicesPage = () => {
 
     const getProduct = async (session) => {
         try {
-            const result = await axios.get(`http://localhost:6001/services/list?search=${search || ''}&status=1`, {
+            const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/services/list?search=${search || ''}&status=1`, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -113,7 +113,7 @@ const ServicesPage = () => {
 const RejectProduct = ({ toggle, setToggle, data, active, session, reloadData }) => {
     const reject = async () => {
         try {
-            const result = await axios.delete(`http://localhost:6001/services/delete?id=${data?.id}`, { withCredentials: false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' } })
+            const result = await axios.delete(`https://api.rajawali-pro.kinikumuda.id/services/delete?id=${data?.id}`, { withCredentials: false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' } })
             setToggle(!toggle)
             reloadData()
             Swal.fire({

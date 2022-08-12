@@ -29,7 +29,7 @@ export default function Security() {
                 password: payload?.password,
                 id: data?.id
             }
-            const result = await axios.post(`http://localhost:6001/admins/change/password`, payloadData, {
+            const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/admins/change/password`, payloadData, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })

@@ -25,9 +25,9 @@ const VerificationServices = () => {
         try {
             let url = ''
             if (tab) {
-                url = `http://localhost:6001/services/list?search=${search || ''}&status=2`
+                url = `https://api.rajawali-pro.kinikumuda.id/services/list?search=${search || ''}&status=2`
             } else {
-                url = `http://localhost:6001/services/list?search=${search || ''}&status=0`
+                url = `https://api.rajawali-pro.kinikumuda.id/services/list?search=${search || ''}&status=0`
             }
             const result = await axios.get(url, {
                 withCredentials: false,
@@ -165,7 +165,7 @@ const ViewProduct = ({ toggle, setToggle, data, active, session, reloadData }) =
             const payload = {
                 status: 1
             }
-            const result = await axios.patch(`http://localhost:6001/services/update/verification?id=${data?.id}`, payload, {
+            const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/services/update/verification?id=${data?.id}`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -185,7 +185,7 @@ const ViewProduct = ({ toggle, setToggle, data, active, session, reloadData }) =
             const payload = {
                 status: 2
             }
-            const result = await axios.patch(`http://localhost:6001/services/update/verification?id=${data?.id}`, payload, {
+            const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/services/update/verification?id=${data?.id}`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })

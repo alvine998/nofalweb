@@ -24,7 +24,7 @@ const ProductPage = () => {
 
     const getProduct = async (session) => {
         try {
-            const result = await axios.get(`http://localhost:6001/products/?search=${search || ''}&status=${status || ''}`, {
+            const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/products/?search=${search || ''}&status=${status || ''}`, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -115,7 +115,7 @@ const RejectProduct = ({ toggle, setToggle, data, active, session, reloadData })
             const payload = {
                 id: data?.id
             }
-            const result = await axios.post(`http://localhost:6001/products/delete`, payload ,{withCredentials:false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }})
+            const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/products/delete`, payload ,{withCredentials:false, headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }})
             setToggle(!toggle)
             reloadData()
             Swal.fire({

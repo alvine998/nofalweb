@@ -25,9 +25,9 @@ const VerificationProduct = () => {
         try {
             let url = ''
             if (tab) {
-                url = `http://localhost:6001/products?search=${search || ''}&verified=2`
+                url = `https://api.rajawali-pro.kinikumuda.id/products?search=${search || ''}&verified=2`
             } else {
-                url = `http://localhost:6001/products?search=${search || ''}&verified=0`
+                url = `https://api.rajawali-pro.kinikumuda.id/products?search=${search || ''}&verified=0`
             }
             const result = await axios.get(url, {
                 withCredentials: false,
@@ -167,7 +167,7 @@ const ViewProduct = ({ toggle, setToggle, data, active, session, reloadData }) =
             const payload = {
                 verified: 1
             }
-            const result = await axios.patch(`http://localhost:6001/products/update/verification?id=${data?.id}`, payload, {
+            const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/products/update/verification?id=${data?.id}`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })

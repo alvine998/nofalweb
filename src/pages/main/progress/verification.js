@@ -25,9 +25,9 @@ const VerificationProgress = () => {
         try {
             let url = ''
             if (tab) {
-                url = `http://localhost:6001/progress/list?search=${search || ''}&verified=2`
+                url = `https://api.rajawali-pro.kinikumuda.id/progress/list?search=${search || ''}&verified=2`
             } else {
-                url = `http://localhost:6001/progress/list?search=${search || ''}&verified=0`
+                url = `https://api.rajawali-pro.kinikumuda.id/progress/list?search=${search || ''}&verified=0`
             }
             const result = await axios.get(url, {
                 withCredentials: false,
@@ -157,7 +157,7 @@ const ViewProduct = ({ toggle, setToggle, data, session, reloadData }) => {
             const payload = {
                 verified: 1
             }
-            const result = await axios.patch(`http://localhost:6001/progress/update/verification?id=${data?.id}`, payload, {
+            const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/progress/update/verification?id=${data?.id}`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
@@ -177,7 +177,7 @@ const ViewProduct = ({ toggle, setToggle, data, session, reloadData }) => {
             const payload = {
                 verified: 2
             }
-            const result = await axios.patch(`http://localhost:6001/progress/update/verification?id=${data?.id}`, payload, {
+            const result = await axios.patch(`https://api.rajawali-pro.kinikumuda.id/progress/update/verification?id=${data?.id}`, payload, {
                 withCredentials: false,
                 headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
             })
