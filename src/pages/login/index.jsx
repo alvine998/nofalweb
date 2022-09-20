@@ -67,7 +67,7 @@ export default function Login() {
       <div className="row g-0">
         <div className="col">
           <div className="box">
-            <h2 className="text-center mt-5 text-white">RAJAWALI-PRO</h2>
+            <h2 className="text-center mt-5 text-white">Crestec Indonesia</h2>
             <div>
               <p className="text-white text-center">
                 Dashboard for administrator

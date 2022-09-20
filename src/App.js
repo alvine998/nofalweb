@@ -5,6 +5,7 @@ import Verification from './pages/verification';
 import Register from './pages/register';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle'
 import { useEffect } from 'react';
 import Profile from './pages/main/settings/profile';
 import ErrorNotFounds from './pages/404';
@@ -17,12 +18,14 @@ import VerificationProgress from './pages/main/progress/verification';
 import VerificationServices from './pages/main/services/verification';
 import ProgressPage from './pages/main/progress';
 import ServicesPage from './pages/main/services';
+import Home from './pages';
 
 function App() {
   return (
     <BRouter>
       <Routes>
-        <Route path={"/"} element={<Login />} />
+        <Route path='/' element={<Home />} />
+        <Route path={"/login"} element={<Login />} />
         <Route path={"/register"} element={<Register />} />
         <Route path={"/verification"} element={<Verification />} />
         <Route path={"/main/dashboard"} element={<Dashboard />} />
@@ -37,7 +40,7 @@ function App() {
         <Route path={"/main/product/verification"} element={<VerificationProduct />} />
         <Route path={"/main/progress/verification"} element={<VerificationProgress />} />
         <Route path={"/main/services/verification"} element={<VerificationServices />} />
-        <Route path='*' element={<ErrorNotFounds/>}/>
+        <Route path='*' element={<ErrorNotFounds />} />
       </Routes>
     </BRouter>
   );
