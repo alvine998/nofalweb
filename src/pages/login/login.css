@@ -2,7 +2,7 @@
     background-color: #3FD6B1;
     height: 100vh;
     padding-top: 50px;
-    padding-inline: 200px;
+    padding-inline: 400px;
 }
 
 .box{
@@ -18,7 +18,8 @@
     width: 100%;
     height: 500px;
     background-color: white;
-    margin-right: auto;
-    margin-left: auto;
+    margin-right: 200px;
+    margin-left: 200px;
     padding: 20px;
+    margin: 50px;
 }

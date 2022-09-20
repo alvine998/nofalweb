@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { img1 } from "../../assets";
+import { crestec_logo, img1, logo_biru } from "../../assets";
 import { useNavigate } from 'react-router-dom';
 import "./login.css";
 import axios from "axios";
@@ -63,43 +63,26 @@ export default function Login() {
   }
 
   return (
-    <div className="bg-blue">
-      <div className="row g-0">
-        <div className="col">
-          <div className="box">
-            <h2 className="text-center mt-5 text-white">Crestec Indonesia</h2>
-            <div>
-              <p className="text-white text-center">
-                Dashboard for administrator
-              </p>
-              <div>
-                <img src={img1} className="w-100 h-30" />
-              </div>
-            </div>
+    <div className="bg-blue" style={{paddingInline:500}}>
+      <div className="box2">
+        <h2 className="text-center mt-5">Login Admin Crestec</h2>
+        <form onSubmit={onLogin} action="#">
+          <div>
+            <label className="form-label">Email</label>
+            <input onChange={onchange} placeholder="johndoe@domain.com" value={payload?.email} name="email" type={'email'} className="form-control" required />
           </div>
-        </div>
-        <div className="col">
-          <div className="box2">
-            <h2 className="text-center mt-5">Login Here</h2>
-            <form onSubmit={onLogin} action="#">
-              <div>
-                <label className="form-label">Email</label>
-                <input onChange={onchange} placeholder="johndoe@domain.com" value={payload?.email} name="email" type={'email'} className="form-control" required />
-              </div>
-              <div>
-                <label className="form-label mt-2">Password</label>
-                <input onChange={onchange} placeholder="********" value={payload?.password} name="password" type={'password'} className="form-control" required />
-              </div>
-              <button className="btn btn-primary w-100 mt-3" type={'submit'}>Login</button>
-            </form>
-            {/* <div className="mt-3">
-              <p className="text-center">
-                Didn't have account? <a href="/register" className="text-decoration-none text-primary">Register now!</a>
-              </p>
-            </div> */}
+          <div>
+            <label className="form-label mt-2">Password</label>
+            <input onChange={onchange} placeholder="********" value={payload?.password} name="password" type={'password'} className="form-control" required />
           </div>
+          <button className="btn btn-primary w-100 mt-3" type={'submit'}>Login</button>
+        </form>
+        <div className="mt-3">
+          <p className="text-center">
+            Didn't have account? <a href="/register" className="text-decoration-none text-primary">Register now!</a>
+          </p>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
