@@ -19,6 +19,13 @@ import VerificationServices from './pages/main/services/verification';
 import ProgressPage from './pages/main/progress';
 import ServicesPage from './pages/main/services';
 import Home from './pages';
+import ListUser from './pages/main/pengguna';
+import ListMails from './pages/main/mailreq';
+import RegisPenyimpanan from './pages/main/registrasi';
+import Profil from './pages/main/profil';
+import EditProfil from './pages/main/profil/setting';
+import PurchaseRequest from './pages/main/purchase';
+import Helpdesk from './pages/main/helpdesk';
 
 function App() {
   return (
@@ -33,6 +40,14 @@ function App() {
         <Route path={"/main/settings/security"} element={<Security />} />
         <Route path={"/main/user/banned"} element={<BannedUser />} />
         <Route path={"/main/user"} element={<UserPage />} />
+        <Route path={"/main/user/list"} element={<ListUser />} />
+        <Route path={"/main/mail/list"} element={<ListMails />} />
+        <Route path={"/main/regis/penyimpanan"} element={<RegisPenyimpanan />} />
+        <Route path={"/main/purchase/request"} element={<PurchaseRequest />} />
+        <Route path={"/main/work/helpdesk"} element={<Helpdesk />} />
+
+        <Route path={"/main/profil/user"} element={<Profil />} />
+        <Route path={"/main/profil/edit"} element={<EditProfil />} />
 
         <Route path={"/main/product"} element={<ProductPage />} />
         <Route path={"/main/progress"} element={<ProgressPage />} />

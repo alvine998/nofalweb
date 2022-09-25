@@ -6,6 +6,8 @@ import banner1 from './images/banner1.jpg'
 import banner2 from './images/banner2.jpg'
 import banner3 from './images/banner3.png'
 import crestec_logo from './images/crestec-logo1.jpg'
+import logo_bulat1 from './images/logo-bulat.png'
+import logo_bulat2 from './images/logo-bulat1.png'
 
 export {
     img1,
@@ -15,5 +17,7 @@ export {
     banner1,
     banner2,
     banner3,
-    crestec_logo
+    crestec_logo,
+    logo_bulat1,
+    logo_bulat2
 }

@@ -63,7 +63,7 @@ export default function Login() {
   }
 
   return (
-    <div className="bg-blue" style={{paddingInline:500}}>
+    <div className="bg-blue" style={{paddingInline:500, overflowY:"hidden"}}>
       <div className="box2">
         <h2 className="text-center mt-5">Login Admin Crestec</h2>
         <form onSubmit={onLogin} action="#">
@@ -79,7 +79,7 @@ export default function Login() {
         </form>
         <div className="mt-3">
           <p className="text-center">
-            Didn't have account? <a href="/register" className="text-decoration-none text-primary">Register now!</a>
+            Belum punya akun? <a href="/register" className="text-decoration-none text-primary">Daftar sekarang!</a>
           </p>
         </div>
       </div>

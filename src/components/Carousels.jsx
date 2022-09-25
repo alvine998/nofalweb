@@ -7,13 +7,13 @@ const Carousels = () => {
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src={banner1} class="d-block w-100" style={{height:500}} />
+                        <img src={banner1} class="d-block w-100" style={{height:'88vh'}} />
                     </div>
                     <div class="carousel-item">
-                        <img src={banner2} class="d-block w-100" style={{height:500}} />
+                        <img src={banner2} class="d-block w-100" style={{height:'88vh'}} />
                     </div>
                     <div class="carousel-item">
-                        <img src={banner3} class="d-block w-100" style={{height:500}} />
+                        <img src={banner3} class="d-block w-100" style={{height:'88vh'}} />
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
