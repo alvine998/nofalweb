@@ -6,15 +6,13 @@ import Swal from 'sweetalert2';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 
-const ListUser = () => {
+const JobList = () => {
 
     const [show, setShow] = useState(false)
     const [payload, setPayload] = useState()
     const [selected, setSelected] = useState()
     const [user, setuser] = useState()
     const [listJobs, setListJobs] = useState([])
-    const [toggle, setToggle] = useState(false)
-    const [editToggle, setEditToggle] = useState(false)
 
     const navigate = useNavigate()
     const getSession = async () => {
@@ -30,7 +28,7 @@ const ListUser = () => {
 
     const getData = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:6001/jobs/list?user_id=${id}`)
+            const result = await axios.get(`http://localhost:6001/jobs/list`)
             setListJobs(result.data)
         } catch (error) {
             console.log(error);
@@ -75,8 +73,7 @@ const ListUser = () => {
         const data = {
             ...payload,
             subject: selected,
-            user_id: user?.id,
-            req_by: user?.fullname
+            user_id: user?.id
         }
         console.log(data)
         try {
@@ -87,57 +84,11 @@ const ListUser = () => {
                 text: "Berhasil Menyimpan Data",
                 icon: "success"
             })
-            getSession()
+            getData()
         } catch (error) {
             console.log(error);
             Swal.fire({
                 text: "Gagal Menyimpan Data",
-                icon: "error"
-            })
-        }
-    }
-
-    const update = async (id) => {
-        const data = {
-            ...payload,
-            subject: selected,
-            user_id: user?.id,
-            req_by: user?.fullname,
-            id: id
-        }
-        console.log(data)
-        try {
-            const result = await axios.patch(`http://localhost:6001/jobs/`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
-            setEditToggle(false)
-            setPayload()
-            Swal.fire({
-                text: "Berhasil Mengubah Data",
-                icon: "success"
-            })
-            getSession()
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                text: "Gagal Mengubah Data",
-                icon: "error"
-            })
-        }
-    }
-
-    const removing = async (id) => {
-        try {
-            const result = await axios.delete(`http://localhost:6001/jobs?id=${id}`)
-            setPayload()
-            setToggle(!toggle)
-            Swal.fire({
-                text: "Berhasil Menghapus Data",
-                icon: "success"
-            })
-            getSession()
-        } catch (error) {
-            console.log(error);
-            Swal.fire({
-                text: "Gagal Menghapus Data",
                 icon: "error"
             })
         }
@@ -169,11 +120,9 @@ const ListUser = () => {
         <>
             <Layout>
                 <div style={{ padding: 20 }}>
-                    <h2 style={{ fontSize: 30 }}>Job Request</h2>
+                    <h2 style={{ fontSize: 30 }}>List Job Request</h2>
                     <div style={{ padding: 20 }}>
-                        {/* Button */}
-                        <Button size='sm' onClick={() => { setShow(!show); setSelected() }}>Tambah Data Job Request</Button>
-
+                        
                         <div>
                             <Table striped bordered hover responsive className='mt-2'>
                                 <thead>
@@ -198,9 +147,9 @@ const ListUser = () => {
                                                 <td>{value?.detail}</td>
                                                 <td>{value?.notes}</td>
                                                 <td>
-                                                    <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
+                                                    <button onClick={()=>{setShow(true); setPayload(value)}} className='btn btn-warning btn-sm w-100'>Lihat</button>
                                                     <div className='mt-1' />
-                                                    <button onClick={() => { setToggle(!toggle); setPayload(value) }} className='btn btn-danger btn-sm w-100'>Hapus</button>
+                                                    <button className='btn btn-danger btn-sm w-100'>Hapus</button>
                                                 </td>
                                             </tr>
                                         ))
@@ -209,66 +158,13 @@ const ListUser = () => {
                             </Table>
                         </div>
 
-                        {
-                            toggle ? (
-                                <Modal show={toggle} onHide={() => { setToggle(!toggle) }}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Hapus Data Job Request</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <p>Anda yakin ingin menghapus data {payload?.subject} {payload?.detail}</p>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={() => { setToggle(!toggle) }}>
-                                            Batalkan
-                                        </Button>
-                                        <Button variant="danger" onClick={() => { removing(payload?.id) }}>
-                                            Hapus
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
-                            ) : ""
-                        }
-
-                        {
-                            editToggle ? (
-                                <Modal show={editToggle} onHide={() => { setEditToggle(!editToggle) }}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Edit Data Job Request</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form>
-                                            {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
-                                            <input type='hidden' name='user_id' value={user?.id} onChange={handleChange} />
-                                            <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
-                                            <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} defaultValue={payload?.subject || selected} />
-                                            {
-                                                selected !== 'Masalah Lainnya' ?
-                                                    <Select defaultValue={payload?.detail} title={"Detail"} name={"detail"} handleChange={handleChange} data={selected == 'Masalah Software' ? SoftwareOptions : selected == 'Masalah Printer' ? PrinterOptions : HardwareOptions} />
-                                                    : ''
-                                            }
-                                            <InputArea title={"Keterangan"} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} defaultValue={payload?.notes} handleChange={handleChange} />
-                                        </Form>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={() => { setEditToggle(!editToggle) }}>
-                                            Batalkan
-                                        </Button>
-                                        <Button variant="primary" onClick={()=>{update(payload?.id)}}>
-                                            Simpan
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
-                            ) : ""
-                        }
-
                         <Modal show={show} onHide={() => { setShow(!show) }}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Tambah Data Job Request</Modal.Title>
+                                <Modal.Title>Detail Data Job Request</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <Form>
-                                    {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
+                                    <Input title={"Request By"} defaultValue={payload?.req_by} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} />
                                     <input type='hidden' name='user_id' value={user?.id} onChange={handleChange} />
                                     <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
                                     <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} value={selected} />
@@ -277,15 +173,18 @@ const ListUser = () => {
                                             <Select title={"Detail"} name={"detail"} handleChange={handleChange} data={selected == 'Masalah Software' ? SoftwareOptions : selected == 'Masalah Printer' ? PrinterOptions : HardwareOptions} />
                                             : ''
                                     }
-                                    <InputArea title={"Keterangan"} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
+                                    <InputArea title={"Keterangan"} value={payload?.notes} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
                                 </Form>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => { setShow(!show) }}>
                                     Batalkan
                                 </Button>
-                                <Button variant="primary" onClick={save}>
-                                    Simpan
+                                <Button variant="danger">
+                                    Tolak
+                                </Button>
+                                <Button variant="success">
+                                    Terima
                                 </Button>
                             </Modal.Footer>
                         </Modal>
@@ -296,4 +195,4 @@ const ListUser = () => {
     )
 }
 
-export default ListUser
+export default JobList

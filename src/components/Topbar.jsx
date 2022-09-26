@@ -27,18 +27,16 @@ export default function Topbar({ children }) {
 
     const getSession = async () => {
         const data = await JSON.parse(localStorage.getItem('logSession'))
-        const session = await JSON.parse(localStorage.getItem('session'))
-        console.log("Session : ", session);
-        if (!session) {
+        console.log("Session : ", data);
+        if (!data) {
             return navigate("/")
         } else {
-            setuser(data.name)
+            setuser(data?.fullname)
         }
     }
 
     const removeSession = async () => {
         await localStorage.removeItem('logSession')
-        await localStorage.removeItem('session')
         navigate('/')
     }
 

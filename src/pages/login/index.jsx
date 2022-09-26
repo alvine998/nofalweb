@@ -12,9 +12,8 @@ export default function Login() {
     setPayload({ ...payload, [e.target.name]: e.target.value })
   }
 
-  const setSession = async (data, session) => {
+  const setSession = async (data) => {
     await localStorage.setItem('logSession', JSON.stringify(data))
-    await localStorage.setItem('session', JSON.stringify(session))
   }
 
   const getSession = async () => {
@@ -38,14 +37,14 @@ export default function Login() {
       console.log('====================================');
       console.log(payloadData);
       console.log('====================================');
-      const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/admins/auth`, payloadData, { withCredentials: false, headers: { 'Access-Control-Allow-Origin': '*' } })
+      const result = await axios.post(`http://localhost:6001/users/auth`, payloadData, { withCredentials: false, headers: { 'Access-Control-Allow-Origin': '*' } })
       if (result) {
         Swal.fire({
           text: "Login Successfull",
           icon: "success"
         })
         console.log(result.data.result);
-        setSession(result.data.result, result.data.session)
+        setSession(result.data.result)
         navigate('/main/dashboard')
         return
       }

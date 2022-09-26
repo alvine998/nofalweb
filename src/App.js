@@ -26,6 +26,9 @@ import Profil from './pages/main/profil';
 import EditProfil from './pages/main/profil/setting';
 import PurchaseRequest from './pages/main/purchase';
 import Helpdesk from './pages/main/helpdesk';
+import ListMailReq from './pages/main/mailreq/list';
+import JobList from './pages/main/pengguna/jobList';
+import ListRegisPenyimpanan from './pages/main/registrasi/list';
 
 function App() {
   return (
@@ -45,6 +48,10 @@ function App() {
         <Route path={"/main/regis/penyimpanan"} element={<RegisPenyimpanan />} />
         <Route path={"/main/purchase/request"} element={<PurchaseRequest />} />
         <Route path={"/main/work/helpdesk"} element={<Helpdesk />} />
+
+        <Route path={"/main/work/mail/list"} element={<ListMailReq />} />
+        <Route path={"/main/work/job/list"} element={<JobList />} />
+        <Route path={"/main/work/regis/list"} element={<ListRegisPenyimpanan />} />
 
         <Route path={"/main/profil/user"} element={<Profil />} />
         <Route path={"/main/profil/edit"} element={<EditProfil />} />

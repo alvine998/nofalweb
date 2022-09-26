@@ -1,19 +1,77 @@
 import { UserIcon } from '@heroicons/react/solid'
+import axios from 'axios'
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { Button, Col, Form, Nav, Row } from 'react-bootstrap'
-import { Input } from '../../../components/Input'
+import { Input, Select } from '../../../components/Input'
 import Layout from '../../../components/Layout'
 
-const EditProfil = () => {
+const EditProfil = ({ navigate }) => {
     const [tabs, setTabs] = useState([true, false])
     const [payload, setPayload] = useState()
+
+    const [user, setuser] = useState({})
+
+    const divisionOptions = [
+        { value: '', label: 'Pilih Divisi' },
+        { value: 'Acc & Fin', label: 'Acc & Fin' },
+        { value: 'Binding', label: 'Binding' },
+        { value: 'EHS', label: 'EHS' },
+        { value: 'Finishing', label: 'Finishing' },
+        { value: 'Gluing', label: 'Gluing' },
+        { value: 'HRD & GA, Legal', label: 'HRD & GA, Legal' },
+        { value: 'ISO', label: 'ISO' },
+        { value: 'PPIC', label: 'PPIC' },
+        { value: 'Pre Press', label: 'Pre Press' },
+        { value: 'Produksi', label: 'Produksi' },
+        { value: 'Purchase', label: 'Purchase' },
+        { value: 'WH FG', label: 'WH FG' },
+        { value: 'WH Material', label: 'WH Material' },
+        { value: 'QA & QC', label: 'QA & QC' },
+        { value: 'IT', label: 'IT' },
+    ]
+
+    const genderOptions = [
+        { value: '', label: 'Silahkan Pilih' },
+        { value: 'L', label: 'Laki-laki' },
+        { value: 'P', label: 'Perempuan' }
+    ]
+
+    const getSession = async () => {
+        const data = await JSON.parse(localStorage.getItem('logSession'))
+        console.log("Session : ", data);
+        if (!data) {
+            return navigate("/")
+        }
+        getData(data?.id)
+        setPayload(data)
+    }
+
+    const getData = async (id) => {
+        try {
+            const result = await axios.get(`http://localhost:6001/users/single?id=${id}`)
+            if (result) {
+                setuser(result.data)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getSession()
+    }, [])
 
     const handleChange = (e) => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }
 
-    const submitted = () => {
-        console.log(payload);
+    const submitted = (e) => {
+        e.preventDefault()
+        const data = {
+            ...payload
+        }
+        console.log(data);
     }
 
     return (
@@ -39,12 +97,12 @@ const EditProfil = () => {
                                         <UserIcon height={250} width={250} color={"black"} />
                                     </Col>
                                     <Col style={{ marginTop: 20 }}>
-                                        <Form>
-                                            <Input title={"Username"} name="username" handleChange={handleChange} placeholder="Masukkan username" />
-                                            <Input title={"Nama Lengkap"} name="fullname" handleChange={handleChange} placeholder="Masukkan nama lengkap" />
-                                            <Input title={"Divisi"} name="division" handleChange={handleChange} placeholder="Masukkan divisi" />
-                                            <Input title={"Jenis Kelamin"} name="gender" handleChange={handleChange} placeholder="Masukkan jenis kelamin" />
-                                            <Input title={"Email"} name="email" handleChange={handleChange} placeholder="Masukkan email pengguna" />
+                                        <Form action='#' onSubmit={submitted}>
+                                            <Input title={"Username"} defaultValue={payload?.username} name="username" handleChange={handleChange} placeholder="Masukkan username" />
+                                            <Input title={"Nama Lengkap"} defaultValue={payload?.fullname} name="fullname" handleChange={handleChange} placeholder="Masukkan nama lengkap" />
+                                            <Select data={divisionOptions} defaultValue={payload?.division} handleChange={handleChange} name="division" title={"Divisi"} />
+                                            <Select data={genderOptions} defaultValue={payload?.gender} handleChange={handleChange} name="gender" title={"Jenis Kelamin"} />
+                                            <Input title={"Email"} name="email" handleChange={handleChange} defaultValue={payload?.email} placeholder="Masukkan email pengguna" />
                                             <div>
                                                 <button className='btn btn-sm btn-primary w-100 mt-5' >Simpan</button>
                                             </div>
@@ -67,7 +125,7 @@ const EditProfil = () => {
                                             <Input title={"Kata Sandi Baru"} name="new_password" handleChange={handleChange} placeholder="Masukkan kata sandi baru" />
                                             <Input title={"Konfirmasi Kata Sandi Lama"} name="confirm_password" handleChange={handleChange} placeholder="Masukkan konfirmasi kata sandi baru" />
                                             <div>
-                                                <a style={{float:"right"}} href="#">Lupa kata sandi?</a>
+                                                <a style={{ float: "right" }} href="#">Lupa kata sandi?</a>
                                             </div>
                                             <div>
                                                 <Button type='submit' className='w-100 mt-5' size='sm' >Simpan</Button>

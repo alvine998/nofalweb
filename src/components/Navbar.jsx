@@ -31,7 +31,7 @@ const Navbar = () => {
                                     <a class="nav-link" href="/register">Daftar</a>
                                 </li>
                             </ul>
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                            {/* <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" /> */}
                         </form>
                     </div>
                 </div>

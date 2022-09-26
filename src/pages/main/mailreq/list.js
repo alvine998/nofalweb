@@ -1,29 +1,34 @@
-import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/solid';
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Modal, Row, Table } from 'react-bootstrap';
-import { Input, InputArea, RichText, Select } from '../../../components/Input';
+import React, { useState } from 'react'
+import { Button, Modal, Table } from 'react-bootstrap';
+import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 
-const Helpdesk = () => {
+const ListMailReq = () => {
 
     const [show, setShow] = useState(false)
     const [payload, setPayload] = useState()
     const [selected, setSelected] = useState()
     const [selectedStatus, setSelectedStatus] = useState()
 
+    const subjectOptions = [
+        { value: '', label: 'Silahkan Pilih' },
+        { value: 'Email', label: "Email" },
+        { value: 'FTP', label: "FTP" },
+    ]
+
     const StatusOptions = [
         { value: '', label: 'Silahkan Pilih' },
-        { value: 'Masalah Hardware', label: 'Masalah Hardware' },
-        { value: 'Masalah Software', label: 'Masalah Software' },
-        { value: 'Masalah Printer', label: 'Masalah Printer' },
-        { value: 'Preventif', label: 'Preventif' },
-        { value: 'Masalah Lainnya', label: 'Masalah Lainnya' },
+        { value: 'Baru', label: 'Baru' },
+        { value: 'Diubah', label: 'Diubah' },
+        { value: 'Dihapus', label: 'Dihapus' },
+        { value: 'Auto Forward', label: 'Auto Forward' },
     ]
 
     const logging = () => {
         const data = {
             ...payload,
-            status: selectedStatus
+            status: selected,
+            subject: selectedStatus
         }
         console.log(data);
     }
@@ -31,30 +36,22 @@ const Helpdesk = () => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }
 
-    const [total, setTotal] = useState(0)
-
-    useEffect(() => {
-
-    }, [total])
-
     return (
         <>
             <Layout>
                 <div style={{ padding: 20 }}>
-                    <h2 style={{ fontSize: 30 }}>Buat Postingan Bantuan</h2>
+                    <h2 style={{ fontSize: 30 }}>Email Request</h2>
                     <div style={{ padding: 20 }}>
-                        {/* Button */}
-                        <Button size='sm' onClick={() => { setShow(!show); setSelected(); setSelectedStatus() }}>Tambah Data Postingan Bantuan</Button>
-
                         <div>
                             <Table striped bordered hover responsive className='mt-2'>
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
-                                        <th>Created By</th>
-                                        <th>Dept/Section</th>
-                                        <th>Judul</th>
-                                        <th>Kategori</th>
+                                        <th>Dept</th>
+                                        <th>Subject</th>
+                                        <th>Detail</th>
+                                        <th>Status Email</th>
+                                        <th>Alasan</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -88,30 +85,6 @@ const Helpdesk = () => {
                                 </tbody>
                             </Table>
                         </div>
-
-                        <Modal show={show} onHide={() => { setShow(!show) }}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Tambah Data Postingan Bantuan</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Input title={"Created By"} placeholder="Masukkan Nama Penulis" name={"created_by"} handleChange={handleChange} />
-                                {/* <Input title={"Dept/Section"} placeholder="Masukkan Dept/Section" name={"dept"} handleChange={handleChange} /> */}
-                                <Input title={"Judul"} placeholder="Masukkan Judul" name={"title"} handleChange={handleChange} />
-                                <Input title={"Slug"} placeholder="Masukkan Slug" name={"slug"} handleChange={handleChange} />
-                                <Select title={"Kategori"} name={"category"} handleChange={(e) => setSelectedStatus(e.target.value)} data={StatusOptions} value={selectedStatus} />
-                                <div className='mt-2'>
-                                    <RichText />
-                                </div>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => { setShow(!show) }}>
-                                    Batalkan
-                                </Button>
-                                <Button variant="primary" onClick={() => { setShow(!show); logging() }}>
-                                    Simpan
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
                     </div>
                 </div>
             </Layout>
@@ -119,4 +92,4 @@ const Helpdesk = () => {
     )
 }
 
-export default Helpdesk
+export default ListMailReq

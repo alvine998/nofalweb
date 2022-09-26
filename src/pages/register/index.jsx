@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
@@ -24,7 +25,7 @@ export default function Register() {
     getSession()
   }, [])
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault()
     if (payload?.password.length < 8) {
       Swal.fire({
@@ -33,11 +34,28 @@ export default function Register() {
       })
       return
     }
-    Swal.fire({
-      text: "Register Successfull",
-      icon: "success"
-    })
-    navigate('/verification')
+
+    const data = {
+      ...payload,
+      status: 'submitted',
+      role: 'user'
+    }
+    console.log(data)
+    try {
+      const result = await axios.post('http://localhost:6001/users/', data, {headers:'Access-Control-Allow-Origin : *', withCredentials: false})
+      Swal.fire({
+        text: "Pendaftaran Berhasil",
+        icon: "success"
+      })
+      navigate('/verification')
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        text: "Gagal Mendaftarkan Diri",
+        icon: "error"
+      })
+    }
+
   }
 
   const divisionOptions = [
@@ -56,11 +74,10 @@ export default function Register() {
     { value: 'WH FG', label: 'WH FG' },
     { value: 'WH Material', label: 'WH Material' },
     { value: 'QA & QC', label: 'QA & QC' },
-    { value: 'IT', label: 'IT' },
   ]
 
   return (
-    <div className="bg-blue" style={{ paddingInline: 500, overflowY:"hidden" }}>
+    <div className="bg-blue" style={{ paddingInline: 500, overflowY: "hidden" }}>
       <div className="box2">
         <h2 className="text-center mt-2">Pendaftaran</h2>
         <form onSubmit={onLogin} action="#">
@@ -70,7 +87,7 @@ export default function Register() {
           </div>
           <div>
             <label className="form-label mt-2">Divisi</label>
-            <select className='form-select'>
+            <select className='form-select' name='division' onChange={onchange}>
               {
                 divisionOptions?.map((value, index) => <option key={index} value={value?.value}>{value?.label}</option>)
               }
@@ -78,10 +95,10 @@ export default function Register() {
           </div>
           <div>
             <label className="form-label mt-2">Jenis Kelamin</label>
-            <select className='form-select'>
+            <select className='form-select' name='gender' onChange={onchange}>
               <option value={""}>Pilih Jenis Kelamin</option>
-              <option value={"laki-laki"}>Laki-laki</option>
-              <option value={"perempuan"}>Perempuan</option>
+              <option value={"L"}>Laki-laki</option>
+              <option value={"P"}>Perempuan</option>
             </select>
           </div>
           <div>

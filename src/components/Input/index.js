@@ -4,40 +4,59 @@ import React, { useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-const Input = ({ title, value, handleChange, placeholder, name, required }) => {
+const Input = ({ title, value, handleChange, placeholder, name, required, defaultValue }) => {
     return (
         <>
             <div style={{ marginTop: 10 }}>
                 {
                     title ? <label className='form-label'>{title}</label> : ''
                 }
-                <input className='form-control' required={required} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                {
+                    defaultValue ?
+                        <input className='form-control' defaultValue={defaultValue} required={required} placeholder={placeholder} name={name} onChange={handleChange} />
+                        :
+                        <input className='form-control' required={required} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                }
             </div>
         </>
     )
 }
 
-const InputArea = ({ title, value, handleChange, placeholder, name, required }) => {
+const InputArea = ({ title, value, handleChange, placeholder, name, required, defaultValue }) => {
     return (
         <>
             <div style={{ marginTop: 10 }}>
                 <label className='form-label'>{title}</label>
-                <textarea className='form-control' required={required} style={{ height: 200 }} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                {
+                    defaultValue ? 
+                    <textarea className='form-control' required={required} style={{ height: 200 }} defaultValue={defaultValue} placeholder={placeholder} name={name} onChange={handleChange} />
+                    :
+                    <textarea className='form-control' required={required} style={{ height: 200 }} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                }
             </div>
         </>
     )
 }
 
-const Select = ({ title, data, handleChange, name, value, required }) => {
+const Select = ({ title, data, handleChange, name, value, required, defaultValue }) => {
     return (
         <>
             <div style={{ marginTop: 10 }}>
                 <label className='form-label'>{title}</label>
-                <select className='form-select' required={required} name={name} onChange={handleChange} value={value}>
-                    {
-                        data?.map((value, i) => <option value={value?.value}>{value?.label}</option>)
-                    }
-                </select>
+                {
+                    defaultValue ?
+                        <select className='form-select' required={required} name={name} onChange={handleChange} defaultValue={defaultValue}>
+                            {
+                                data?.map((value, i) => <option value={value?.value}>{value?.label}</option>)
+                            }
+                        </select>
+                        :
+                        <select className='form-select' required={required} name={name} onChange={handleChange} value={value}>
+                            {
+                                data?.map((value, i) => <option value={value?.value}>{value?.label}</option>)
+                            }
+                        </select>
+                }
             </div>
         </>
     )

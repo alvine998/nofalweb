@@ -1,10 +1,9 @@
-import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/solid';
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Modal, Row, Table } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Button, Modal, Table } from 'react-bootstrap';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 
-const PurchaseRequest = () => {
+const ListRegisPenyimpanan = () => {
 
     const [show, setShow] = useState(false)
     const [payload, setPayload] = useState()
@@ -29,52 +28,22 @@ const PurchaseRequest = () => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }
 
-    const divisionOptions = [
-        { value: '', label: 'Pilih Divisi' },
-        { value: 'Acc & Fin', label: 'Acc & Fin' },
-        { value: 'Binding', label: 'Binding' },
-        { value: 'EHS', label: 'EHS' },
-        { value: 'Finishing', label: 'Finishing' },
-        { value: 'Gluing', label: 'Gluing' },
-        { value: 'HRD & GA, Legal', label: 'HRD & GA, Legal' },
-        { value: 'ISO', label: 'ISO' },
-        { value: 'PPIC', label: 'PPIC' },
-        { value: 'Pre Press', label: 'Pre Press' },
-        { value: 'Produksi', label: 'Produksi' },
-        { value: 'Purchase', label: 'Purchase' },
-        { value: 'WH FG', label: 'WH FG' },
-        { value: 'WH Material', label: 'WH Material' },
-        { value: 'QA & QC', label: 'QA & QC' },
-        { value: 'IT', label: 'IT' },
-      ]
-
-    const [total, setTotal] = useState(0)
-
-    useEffect(() => {
-
-    }, [total])
-
     return (
         <>
             <Layout>
                 <div style={{ padding: 20 }}>
-                    <h2 style={{ fontSize: 30 }}>Buat Purchase Request</h2>
+                    <h2 style={{ fontSize: 30 }}>Registrasi Penyimpanan</h2>
                     <div style={{ padding: 20 }}>
-                        {/* Button */}
-                        <Button size='sm' onClick={() => { setShow(!show); setSelected(); setSelectedStatus() }}>Tambah Data Purchase Request</Button>
-
                         <div>
                             <Table striped bordered hover responsive className='mt-2'>
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
-                                        <th>Pemohon</th>
+                                        <th>Jenis Regis</th>
+                                        <th>Nama PIC</th>
                                         <th>Dept</th>
-                                        <th>Pemesanan</th>
-                                        <th>Jumlah</th>
-                                        <th>Estimasi Harga</th>
-                                        <th>Total</th>
                                         <th>Status</th>
+                                        <th>Tanggal</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -111,33 +80,14 @@ const PurchaseRequest = () => {
 
                         <Modal show={show} onHide={() => { setShow(!show) }}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Tambah Data Purchase Request</Modal.Title>
+                                <Modal.Title>Tambah Data Regis Penyimpanan</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Input title={"Request By"} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
-                                {/* <Input title={"Dept/Section"} placeholder="Masukkan Dept/Section" name={"dept"} handleChange={handleChange} /> */}
-                                <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
-                                {/* <Select title={"Status Perangkat"} name={"status"} handleChange={(e) => setSelectedStatus(e.target.value)} data={StatusOptions} value={selectedStatus} /> */}
-                                <InputArea title={"Kind of Service"} placeholder="Silahkan Tulis Disini" name={"kind"} handleChange={handleChange} />
-                                <div style={{ marginTop: 20 }}>
-                                    <div className='row g-2'>
-                                        <div className='col-md-1'>
-                                            <button onClick={() => { total < 0 ? setTotal(0) : setTotal(total - 1) }}>
-                                                <MinusCircleIcon width={30} height={30} />
-                                            </button>
-                                        </div>
-                                        <div className='col-md-2'>
-                                            <input value={total} style={{marginLeft:'auto', marginRight:'auto'}} readOnly className='form-control text-center' />
-                                        </div>
-                                        <div className='col-md'>
-                                            <button onClick={() => { setTotal(total + 1) }}>
-                                                <PlusCircleIcon width={30} height={30} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <Input title={"Estimasi Harga"} placeholder="Rp 0" name={"estimation"} handleChange={handleChange} />
-                                <Input title={"Total Harga"} placeholder="Rp 0" name={"total"} handleChange={handleChange} />
+                                <Input title={"Jenis Registrasi"} placeholder="Masukkan Jenis Registrasi" name={"type"} handleChange={handleChange} />
+                                <Input title={"Nama PIC"} placeholder="Nama Pengguna" name={"name"} handleChange={handleChange} />
+                                <Input title={"Dept"} placeholder="Divisi Pengguna" name={"dept"} handleChange={handleChange} />
+                                <Select title={"Status Perangkat"} name={"status"} handleChange={(e) => setSelectedStatus(e.target.value)} data={StatusOptions} value={selectedStatus} />
+                                <InputArea title={"Detail Spesifikasi"} placeholder="Silahkan Tulis Spesifikasi Disini" name={"detail"} handleChange={handleChange} />
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => { setShow(!show) }}>
@@ -155,4 +105,4 @@ const PurchaseRequest = () => {
     )
 }
 
-export default PurchaseRequest
+export default ListRegisPenyimpanan
