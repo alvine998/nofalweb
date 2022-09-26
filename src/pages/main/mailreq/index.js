@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { ModalApproval } from '../../../components/Approval';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 
@@ -9,6 +13,133 @@ const ListMails = () => {
     const [payload, setPayload] = useState()
     const [selected, setSelected] = useState()
     const [selectedStatus, setSelectedStatus] = useState()
+    const [listJobs, setListJobs] = useState([])
+    const [toggle, setToggle] = useState(false)
+    const [editToggle, setEditToggle] = useState(false)
+    const [accToggle, setAccToggle] = useState(false)
+    const [user, setuser] = useState()
+
+    const navigate = useNavigate()
+    const getSession = async () => {
+        const data = await JSON.parse(localStorage.getItem('logSession'))
+        console.log("Session : ", data);
+        if (!data) {
+            return navigate("/")
+        } else {
+            setuser(data)
+        }
+        getData(data?.id)
+    }
+
+    const getData = async (id) => {
+        try {
+            const result = await axios.get(`http://localhost:6001/mails/list?user_id=${id}`)
+            setListJobs(result.data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getSession()
+    }, [])
+
+    const save = async () => {
+        const data = {
+            user_id: user?.id,
+            detail: {
+                email_quo: payload?.email_quo,
+                email_name: payload?.email_name,
+                email_acc: payload?.email_acc,
+            },
+            mail_status: payload?.mail_status,
+            notes: payload?.notes,
+            dept: payload?.dept,
+            subject: payload?.subject
+        }
+        console.log(data)
+        try {
+            const result = await axios.post(`http://localhost:6001/mails/`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setShow(false)
+            setPayload()
+            Swal.fire({
+                text: "Berhasil Menyimpan Data",
+                icon: "success"
+            })
+            getSession()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Gagal Menyimpan Data",
+                icon: "error"
+            })
+        }
+    }
+
+    const update = async (id) => {
+        const data = {
+            ...payload,
+            subject: selected,
+            user_id: user?.id,
+            req_by: user?.fullname,
+            id: id
+        }
+        console.log(data)
+        try {
+            const result = await axios.patch(`http://localhost:6001/mails/`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setEditToggle(false)
+            setPayload()
+            Swal.fire({
+                text: "Berhasil Mengubah Data",
+                icon: "success"
+            })
+            getSession()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Gagal Mengubah Data",
+                icon: "error"
+            })
+        }
+    }
+
+    const removing = async (id) => {
+        try {
+            const result = await axios.delete(`http://localhost:6001/mails?id=${id}`)
+            setPayload()
+            setToggle(!toggle)
+            Swal.fire({
+                text: "Berhasil Menghapus Data",
+                icon: "success"
+            })
+            getSession()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Gagal Menghapus Data",
+                icon: "error"
+            })
+        }
+    }
+
+    const divisionOptions = [
+        { value: '', label: 'Pilih Divisi' },
+        { value: 'Acc & Fin', label: 'Acc & Fin' },
+        { value: 'Binding', label: 'Binding' },
+        { value: 'EHS', label: 'EHS' },
+        { value: 'Finishing', label: 'Finishing' },
+        { value: 'Gluing', label: 'Gluing' },
+        { value: 'HRD & GA, Legal', label: 'HRD & GA, Legal' },
+        { value: 'ISO', label: 'ISO' },
+        { value: 'PPIC', label: 'PPIC' },
+        { value: 'Pre Press', label: 'Pre Press' },
+        { value: 'Produksi', label: 'Produksi' },
+        { value: 'Purchase', label: 'Purchase' },
+        { value: 'WH FG', label: 'WH FG' },
+        { value: 'WH Material', label: 'WH Material' },
+        { value: 'QA & QC', label: 'QA & QC' },
+        { value: 'IT', label: 'IT' },
+    ]
 
     const subjectOptions = [
         { value: '', label: 'Silahkan Pilih' },
@@ -55,48 +186,120 @@ const ListMails = () => {
                                         <th>Detail</th>
                                         <th>Status Email</th>
                                         <th>Alasan</th>
+                                        <th>Status</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Test</td>
-                                    </tr>
-                                    {/* {
-                                        product.length > 0 ?
-                                            product.map((data, index) => (
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{data?.title}</td>
-                                                    <td>{data?.address}</td>
-                                                    <td>{data?.type_name}</td>
-                                                    <td>{data?.surface_area} / {data?.build_area}</td>
-                                                    <td className='text-center'>{data?.description || "-"}</td>
-                                                    <td className='text-center'>{data?.certificate_no || "-"}</td>
-                                                    <td className='text-center'>
-                                                        <Button onClick={() => { setToggle(true); setDataToggle(data) }} variant='primary' size='sm'>Lihat</Button>
-                                                        &nbsp;
-                                                        <Button className='mt-1' onClick={() => { setRejectToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Hapus</Button>
+                                    {
+                                        listJobs?.map((value, i) => (
+                                            <tr key={i}>
+                                                <td>{i + 1}</td>
+                                                <td>{value?.dept}</td>
+                                                <td>{value?.subject}</td>
+                                                <td>
+                                                    <p>
+                                                        Nama : {value?.detail.email_name}<br />
+                                                        Email : {value?.detail.email_acc}<br />
+                                                        Quota : {value?.detail.email_quo}
+                                                    </p>
+                                                </td>
+                                                <td>{value?.mail_status}</td>
+                                                <td>{value?.notes}</td>
+                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>
+                                                    {
+                                                        value?.status == 0 ? (
+                                                            <>
+                                                                <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
+                                                                <div className='mt-1' />
+                                                                <button onClick={() => { setToggle(!toggle); setPayload(value) }} className='btn btn-danger btn-sm w-100'>Hapus</button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button onClick={() => {
+                                                                    setAccToggle(true)
+                                                                    setPayload(value)
+                                                                }} className='btn btn-warning btn-sm w-100'>Lihat</button>
+                                                            </>
+                                                        )
+                                                    }
 
-                                                    </td>
-                                                </tr>
-                                            )) : <div className='p-4'>
-                                                <p>Data tidak ditemukan</p>
-                                            </div>
-                                    } */}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
                                 </tbody>
                             </Table>
                         </div>
+
+                        {
+                            toggle ? (
+                                <Modal show={toggle} onHide={() => { setToggle(!toggle) }}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Hapus Data Email Request</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <p>Anda yakin ingin menghapus data {payload?.subject} {`${payload?.detail.email_name} - ${payload?.detail.email_acc} - ${payload?.detail.email_quo}`}</p>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => { setToggle(!toggle) }}>
+                                            Batalkan
+                                        </Button>
+                                        <Button variant="danger" onClick={() => { removing(payload?.id) }}>
+                                            Hapus
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                            ) : ""
+                        }
+
+                        {
+                            accToggle ?
+                                payload?.status == 1 ?
+                                    <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Email Request"} body={"Email Request anda telah disetujui dan sedang dalam proses pekerjaan"} />
+                                    :
+                                    payload?.status == 3 ?
+                                        <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Email Request"} body={"Email Request anda telah selesai"} />
+                                        :
+                                        <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Email Request"} body={"Email Request anda ditolak, silahkan melakukan pengajuan ulang"} /> : ''
+                        }
+
+                        {
+                            editToggle ? (
+                                <Modal show={editToggle} onHide={() => { setEditToggle(!editToggle) }}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Edit Data Email Request</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                        <Select title={"Subject"} defaultValue={payload?.subject} name={"subject"} handleChange={handleChange} data={subjectOptions} />
+                                        <Select title={"Status Email"} defaultValue={payload?.mail_status} name={"mail_status"} handleChange={handleChange} data={StatusOptions} />
+                                        <Input title={"Detail"} defaultValue={payload?.detail.email_name} placeholder="Nama Pengguna" name={"detail.email_name"} handleChange={handleChange} />
+                                        <Input title={""} defaultValue={payload?.detail.email_acc} placeholder="Akun Email" name={"detail.email_acc"} handleChange={handleChange} />
+                                        <Input title={""} defaultValue={payload?.detail.email_quo} placeholder="Email Quota" name={"detail.email_quo"} handleChange={handleChange} />
+                                        <InputArea title={"Keterangan"} defaultValue={payload?.notes} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => { setEditToggle(!editToggle) }}>
+                                            Batalkan
+                                        </Button>
+                                        <Button variant="primary" onClick={() => { update(payload?.id) }}>
+                                            Simpan
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
+                            ) : ""
+                        }
 
                         <Modal show={show} onHide={() => { setShow(!show) }}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Tambah Data Email Request</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Input title={"Dept"} placeholder="Nama Pengguna" name={"request_by"} handleChange={handleChange} />
-                                <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} value={selected} />
-                                <Select title={"Status Email"} name={"status"} handleChange={(e) => setSelectedStatus(e.target.value)} data={StatusOptions} value={selectedStatus} />
+                                <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                <Select title={"Subject"} name={"subject"} handleChange={handleChange} data={subjectOptions} />
+                                <Select title={"Status Email"} name={"mail_status"} handleChange={handleChange} data={StatusOptions} />
                                 <Input title={"Detail"} placeholder="Nama Pengguna" name={"email_name"} handleChange={handleChange} />
                                 <Input title={""} placeholder="Akun Email" name={"email_acc"} handleChange={handleChange} />
                                 <Input title={""} placeholder="Email Quota" name={"email_quo"} handleChange={handleChange} />
@@ -106,7 +309,7 @@ const ListMails = () => {
                                 <Button variant="secondary" onClick={() => { setShow(!show) }}>
                                     Batalkan
                                 </Button>
-                                <Button variant="primary" onClick={() => { setShow(!show); logging() }}>
+                                <Button variant="primary" onClick={save}>
                                     Simpan
                                 </Button>
                             </Modal.Footer>

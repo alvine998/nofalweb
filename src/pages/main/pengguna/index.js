@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { ModalApproval } from '../../../components/Approval';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 
@@ -15,6 +16,7 @@ const ListUser = () => {
     const [listJobs, setListJobs] = useState([])
     const [toggle, setToggle] = useState(false)
     const [editToggle, setEditToggle] = useState(false)
+    const [accToggle, setAccToggle] = useState(false)
 
     const navigate = useNavigate()
     const getSession = async () => {
@@ -142,6 +144,7 @@ const ListUser = () => {
             })
         }
     }
+
     const handleChange = (e) => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }
@@ -184,6 +187,7 @@ const ListUser = () => {
                                         <th>Subject</th>
                                         <th>Detail</th>
                                         <th>Keterangan</th>
+                                        <th>Status</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -197,10 +201,25 @@ const ListUser = () => {
                                                 <td>{value?.subject}</td>
                                                 <td>{value?.detail}</td>
                                                 <td>{value?.notes}</td>
+                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
                                                 <td>
-                                                    <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
-                                                    <div className='mt-1' />
-                                                    <button onClick={() => { setToggle(!toggle); setPayload(value) }} className='btn btn-danger btn-sm w-100'>Hapus</button>
+                                                    {
+                                                        value?.status == 0 ? (
+                                                            <>
+                                                                <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
+                                                                <div className='mt-1' />
+                                                                <button onClick={() => { setToggle(!toggle); setPayload(value) }} className='btn btn-danger btn-sm w-100'>Hapus</button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button onClick={() => {
+                                                                    setAccToggle(true)
+                                                                    setPayload(value)
+                                                                }} className='btn btn-warning btn-sm w-100'>Lihat</button>
+                                                            </>
+                                                        )
+                                                    }
+
                                                 </td>
                                             </tr>
                                         ))
@@ -231,6 +250,17 @@ const ListUser = () => {
                         }
 
                         {
+                            accToggle ?
+                                payload?.status == 1 ?
+                                    <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Job Request"} body={"Job Request anda telah disetujui dan sedang dalam proses pekerjaan"} />
+                                    :
+                                    payload?.status == 3 ?
+                                        <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Job Request"} body={"Job Request anda telah selesai"} />
+                                        :
+                                        <ModalApproval toggle={accToggle} setToggle={setAccToggle} title={"Job Request"} body={"Job Request anda ditolak, silahkan melakukan pengajuan ulang"} /> : ""
+                        }
+
+                        {
                             editToggle ? (
                                 <Modal show={editToggle} onHide={() => { setEditToggle(!editToggle) }}>
                                     <Modal.Header closeButton>
@@ -254,7 +284,7 @@ const ListUser = () => {
                                         <Button variant="secondary" onClick={() => { setEditToggle(!editToggle) }}>
                                             Batalkan
                                         </Button>
-                                        <Button variant="primary" onClick={()=>{update(payload?.id)}}>
+                                        <Button variant="primary" onClick={() => { update(payload?.id) }}>
                                             Simpan
                                         </Button>
                                     </Modal.Footer>

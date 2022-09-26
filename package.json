@@ -16,6 +16,7 @@
     "dotenv": "^16.0.1",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
@@ -34,7 +35,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy":"http://localhost:6001",
+  "proxy": "http://localhost:6001",
   "eslintConfig": {
     "extends": [
       "react-app",
