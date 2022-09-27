@@ -19,29 +19,23 @@ export default function Dashboard() {
 
   const getDashboard = async (session) => {
     try {
-      const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/users/list`, {
+      const result = await axios.get(`http://localhost:6001/mails/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setUsers(result.data)
 
-      const resultProduct = await axios.get(`https://api.rajawali-pro.kinikumuda.id/products`, {
+      const resultProduct = await axios.get(`http://localhost:6001/jobs/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setProduct(resultProduct.data)
 
-      const resultServices = await axios.get(`https://api.rajawali-pro.kinikumuda.id/services/list`, {
+      const resultServices = await axios.get(`http://localhost:6001/storages/list`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
       setServices(resultServices.data)
-
-      const resultPartners = await axios.get(`https://api.rajawali-pro.kinikumuda.id/partners/list`, {
-        withCredentials: false,
-        headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
-      })
-      setPartners(resultPartners.data)
     } catch (error) {
 
     }
@@ -58,19 +52,7 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Pengguna :</h5>
-                </div>
-                <div className='col-md'>
-                  <h5 className='text-white float-end'>{users.length}</h5>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col-md'>
-            <div className='box-dash'>
-              <div className='row'>
-                <div className='col-md'>
-                  <h5 className='text-white'>Produk :</h5>
+                  <h5 className='text-white'>Total Job Request :</h5>
                 </div>
                 <div className='col-md'>
                   <h5 className='text-white float-end'>{product.length}</h5>
@@ -82,34 +64,25 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Jasa :</h5>
+                  <h5 className='text-white'>Total Email Request :</h5>
                 </div>
                 <div className='col-md'>
-                  <h5 className='text-white float-end'>{services.length}</h5>
+                  <h5 className='text-white float-end'>{users.length}</h5>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className='row mt-5'>
           <div className='col-md'>
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Mitra :</h5>
+                  <h5 className='text-white'>Total Regis Penyimpanan :</h5>
                 </div>
-                <div className='col-md'>
-                  <h5 className='text-white float-end'>{partners.length}</h5>
+                <div className='col-md-2'>
+                  <h5 className='text-white float-end'>{services.length}</h5>
                 </div>
               </div>
             </div>
-          </div>
-          <div className='col-md'>
-
-          </div>
-          <div className='col-md'>
-            
           </div>
         </div>
       </div>

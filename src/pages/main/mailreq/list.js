@@ -205,7 +205,7 @@ const ListMailReq = () => {
                                 <>
                                     <Modal show={toggle} onHide={() => { setToggle(!toggle) }}>
                                         <Modal.Header closeButton>
-                                            <Modal.Title>Update Data Job Request</Modal.Title>
+                                            <Modal.Title>Update Data Email Request</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
                                             {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
@@ -228,7 +228,7 @@ const ListMailReq = () => {
 
                         <Modal show={show} onHide={() => { setShow(!show) }}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Detail Data Job Request</Modal.Title>
+                                <Modal.Title>Detail Data Email Request</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <p>Dept/Section : {payload?.dept}</p>

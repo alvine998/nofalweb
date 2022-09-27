@@ -29,6 +29,7 @@ import Helpdesk from './pages/main/helpdesk';
 import ListMailReq from './pages/main/mailreq/list';
 import JobList from './pages/main/pengguna/jobList';
 import ListRegisPenyimpanan from './pages/main/registrasi/list';
+import Help from './pages/help';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path={"/login"} element={<Login />} />
         <Route path={"/register"} element={<Register />} />
+        <Route path={"/help"} element={<Help />} />
         <Route path={"/verification"} element={<Verification />} />
         <Route path={"/main/dashboard"} element={<Dashboard />} />
         <Route path={"/main/settings/profile"} element={<Profile />} />

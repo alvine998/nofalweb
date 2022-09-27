@@ -47,7 +47,7 @@ export default function Register() {
         text: "Pendaftaran Berhasil",
         icon: "success"
       })
-      navigate('/verification')
+      navigate('/login')
     } catch (error) {
       console.log(error);
       Swal.fire({

@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { Button, Col, Form, Nav, Row } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 import { Input, Select } from '../../../components/Input'
 import Layout from '../../../components/Layout'
 
@@ -62,6 +63,29 @@ const EditProfil = ({ navigate }) => {
         getSession()
     }, [])
 
+    const update = async (id) => {
+        const data = {
+            ...payload,
+            id: id
+        }
+        console.log(data)
+        try {
+            const result = await axios.patch(`http://localhost:6001/users/`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setPayload()
+            Swal.fire({
+                text: "Berhasil Mengubah Data",
+                icon: "success"
+            })
+            getSession()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Gagal Mengubah Data",
+                icon: "error"
+            })
+        }
+    }
+
     const handleChange = (e) => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }
@@ -97,16 +121,14 @@ const EditProfil = ({ navigate }) => {
                                         <UserIcon height={250} width={250} color={"black"} />
                                     </Col>
                                     <Col style={{ marginTop: 20 }}>
-                                        <Form action='#' onSubmit={submitted}>
-                                            <Input title={"Username"} defaultValue={payload?.username} name="username" handleChange={handleChange} placeholder="Masukkan username" />
-                                            <Input title={"Nama Lengkap"} defaultValue={payload?.fullname} name="fullname" handleChange={handleChange} placeholder="Masukkan nama lengkap" />
-                                            <Select data={divisionOptions} defaultValue={payload?.division} handleChange={handleChange} name="division" title={"Divisi"} />
-                                            <Select data={genderOptions} defaultValue={payload?.gender} handleChange={handleChange} name="gender" title={"Jenis Kelamin"} />
-                                            <Input title={"Email"} name="email" handleChange={handleChange} defaultValue={payload?.email} placeholder="Masukkan email pengguna" />
-                                            <div>
-                                                <button className='btn btn-sm btn-primary w-100 mt-5' >Simpan</button>
-                                            </div>
-                                        </Form>
+                                        <Input title={"Username"} defaultValue={payload?.username} name="username" handleChange={handleChange} placeholder="Masukkan username" />
+                                        <Input title={"Nama Lengkap"} defaultValue={payload?.fullname} name="fullname" handleChange={handleChange} placeholder="Masukkan nama lengkap" />
+                                        <Select data={divisionOptions} defaultValue={payload?.division} handleChange={handleChange} name="division" title={"Divisi"} />
+                                        <Select data={genderOptions} defaultValue={payload?.gender} handleChange={handleChange} name="gender" title={"Jenis Kelamin"} />
+                                        <Input title={"Email"} name="email" handleChange={handleChange} defaultValue={payload?.email} placeholder="Masukkan email pengguna" />
+                                        <div>
+                                            <button onClick={()=>update(payload?.id)} className='btn btn-sm btn-primary w-100 mt-5' >Simpan</button>
+                                        </div>
                                     </Col>
                                 </Row>
                             </div>

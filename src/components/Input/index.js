@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-const Input = ({ title, value, handleChange, placeholder, name, required, defaultValue }) => {
+const Input = ({ title, value, handleChange, placeholder, name, required, defaultValue, read }) => {
     return (
         <>
             <div style={{ marginTop: 10 }}>
@@ -13,9 +13,9 @@ const Input = ({ title, value, handleChange, placeholder, name, required, defaul
                 }
                 {
                     defaultValue ?
-                        <input className='form-control' defaultValue={defaultValue} required={required} placeholder={placeholder} name={name} onChange={handleChange} />
+                        <input className='form-control' readOnly={read ? true : false} defaultValue={defaultValue} required={required} placeholder={placeholder} name={name} onChange={handleChange} />
                         :
-                        <input className='form-control' required={required} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                        <input className='form-control' readOnly={read ? true : false} required={required} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
                 }
             </div>
         </>
@@ -28,10 +28,10 @@ const InputArea = ({ title, value, handleChange, placeholder, name, required, de
             <div style={{ marginTop: 10 }}>
                 <label className='form-label'>{title}</label>
                 {
-                    defaultValue ? 
-                    <textarea className='form-control' required={required} style={{ height: 200 }} defaultValue={defaultValue} placeholder={placeholder} name={name} onChange={handleChange} />
-                    :
-                    <textarea className='form-control' required={required} style={{ height: 200 }} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
+                    defaultValue ?
+                        <textarea className='form-control' required={required} style={{ height: 200 }} defaultValue={defaultValue} placeholder={placeholder} name={name} onChange={handleChange} />
+                        :
+                        <textarea className='form-control' required={required} style={{ height: 200 }} value={value} placeholder={placeholder} name={name} onChange={handleChange} />
                 }
             </div>
         </>
@@ -62,13 +62,7 @@ const Select = ({ title, data, handleChange, name, value, required, defaultValue
     )
 }
 
-const RichText = () => {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty())
-    const [raw, setRaw] = useState('')
-    const handleState = (e) => {
-        setEditorState(e)
-        setRaw(draftToHtml(convertToRaw(editorState.getCurrentContent())))
-    }
+const RichText = ({editorState, handleState}) => {
     const wrapperStyle = {
         border: '1px solid #969696',
         borderRadius: 10,
