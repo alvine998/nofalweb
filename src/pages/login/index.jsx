@@ -51,10 +51,10 @@ export default function Login() {
 
     } catch (error) {
       Swal.fire({
-        text: "Email atau password salah!",
+        text: "Username atau password salah!",
         icon: "error"
       })
-      navigate('/')
+      navigate('/login')
       console.log(error);
       return
     }
@@ -67,8 +67,8 @@ export default function Login() {
         <h2 className="text-center mt-5">Login Admin Crestec</h2>
         <form onSubmit={onLogin} action="#">
           <div>
-            <label className="form-label">Email</label>
-            <input onChange={onchange} placeholder="johndoe@domain.com" value={payload?.email} name="email" type={'email'} className="form-control" required />
+            <label className="form-label">Username</label>
+            <input onChange={onchange} placeholder="johndoe@domain.com" value={payload?.username} name="username" className="form-control" required />
           </div>
           <div>
             <label className="form-label mt-2">Password</label>

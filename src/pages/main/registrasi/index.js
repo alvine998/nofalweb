@@ -47,10 +47,10 @@ const RegisPenyimpanan = () => {
     const save = async () => {
         const data = {
             user_id: user?.id,
-            dept: payload?.dept,
+            dept: user?.division,
             device_status: payload?.device_status,
             detail: payload?.detail,
-            pic_name: payload?.pic_name,
+            pic_name: user?.fullname,
             type: payload?.type,
         }
         console.log(data)
@@ -76,7 +76,9 @@ const RegisPenyimpanan = () => {
         const data = {
             ...payload,
             user_id: user?.id,
-            id: id
+            id: id,
+            dept: user?.division,
+            pic_name: user?.fullname
         }
         console.log(data)
         try {
@@ -167,6 +169,7 @@ const RegisPenyimpanan = () => {
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
+                                        <th>Tanggal Terbit</th>
                                         <th>Jenis Regis</th>
                                         <th>Nama PIC</th>
                                         <th>Dept</th>
@@ -174,6 +177,7 @@ const RegisPenyimpanan = () => {
                                         <th>Tanggal</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
+                                        <th>Tanggal Update</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -182,13 +186,15 @@ const RegisPenyimpanan = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
+                                                <td>{value?.created_on == null ? "-" : new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
                                                 <td>{value?.type}</td>
                                                 <td>{value?.pic_name}</td>
                                                 <td>{value?.dept}</td>
                                                 <td>{value?.device_status}</td>
                                                 <td>{value?.created_on.substr(0, 10)}</td>
                                                 <td>{value?.detail}</td>
-                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Proses Pengerjaan' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.modified_on == null ? "-" : new Date(value?.modified_on).getDate() + " - " + new Date(value?.modified_on).getMonth() + " - " + new Date(value?.modified_on).getFullYear() + " . " + new Date(value?.modified_on).getHours() + ":" + new Date(value?.modified_on).getMinutes() + ":" + new Date(value?.modified_on).getSeconds()}</td>
                                                 <td>
                                                     {
                                                         value?.status == 0 ? (
@@ -255,8 +261,8 @@ const RegisPenyimpanan = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Input title={"Jenis Registrasi"} defaultValue={payload?.type} placeholder="Masukkan Jenis Registrasi" name={"type"} handleChange={handleChange} />
-                                        <Input title={"Nama PIC"} defaultValue={payload?.pic_name} placeholder="Nama Pengguna" name={"pic_name"} handleChange={handleChange} />
-                                        <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                        <Input title={"Nama PIC"} read={true} defaultValue={user?.fullname} placeholder="Nama Pengguna" name={"pic_name"} handleChange={handleChange} />
+                                        <Input defaultValue={user?.division} read={true} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
                                         <Select title={"Status Perangkat"} defaultValue={payload?.device_status} name={"device_status"} handleChange={handleChange} data={StatusOptions} />
                                         <InputArea title={"Detail Spesifikasi"} defaultValue={payload?.detail} placeholder="Silahkan Tulis Spesifikasi Disini" name={"detail"} handleChange={handleChange} />
                                     </Modal.Body>
@@ -278,8 +284,8 @@ const RegisPenyimpanan = () => {
                             </Modal.Header>
                             <Modal.Body>
                                 <Input title={"Jenis Registrasi"} placeholder="Masukkan Jenis Registrasi" name={"type"} handleChange={handleChange} />
-                                <Input title={"Nama PIC"} placeholder="Nama Pengguna" name={"pic_name"} handleChange={handleChange} />
-                                <Select data={divisionOptions} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                <Input title={"Nama PIC"} read={true} defaultValue={user?.fullname} placeholder="Nama Pengguna" name={"pic_name"} handleChange={handleChange} />
+                                <Input defaultValue={user?.division} read={true} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
                                 <Select title={"Status Perangkat"} name={"device_status"} handleChange={handleChange} data={StatusOptions} />
                                 <InputArea title={"Detail Spesifikasi"} placeholder="Silahkan Tulis Spesifikasi Disini" name={"detail"} handleChange={handleChange} />
                             </Modal.Body>

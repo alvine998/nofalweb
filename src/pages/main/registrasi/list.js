@@ -46,7 +46,8 @@ const ListRegisPenyimpanan = () => {
 
     const approval = async (id) => {
         const data = {
-            status: 1
+            status: 1,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -69,7 +70,8 @@ const ListRegisPenyimpanan = () => {
 
     const reject = async (id) => {
         const data = {
-            status: 2
+            status: 2,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -94,7 +96,8 @@ const ListRegisPenyimpanan = () => {
         const data = {
             work_by: payload?.work_by,
             notes: payload?.notes,
-            status: 3
+            status: 3,
+            modified_on: new Date()
         }
         try {
             const result = await axios.patch(`http://localhost:6001/storages/done?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })

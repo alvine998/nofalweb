@@ -54,7 +54,7 @@ const ListMails = () => {
             },
             mail_status: payload?.mail_status,
             notes: payload?.notes,
-            dept: payload?.dept,
+            dept: user?.division,
             subject: payload?.subject
         }
         console.log(data)
@@ -79,9 +79,9 @@ const ListMails = () => {
     const update = async (id) => {
         const data = {
             ...payload,
-            subject: selected,
             user_id: user?.id,
             req_by: user?.fullname,
+            dept: user?.division,
             id: id
         }
         console.log(data)
@@ -143,8 +143,8 @@ const ListMails = () => {
 
     const subjectOptions = [
         { value: '', label: 'Silahkan Pilih' },
-        { value: 'Email', label: "Email" },
-        { value: 'FTP', label: "FTP" },
+        { value: 'email', label: "Email" },
+        { value: 'ftp', label: "FTP" },
     ]
 
     const StatusOptions = [
@@ -181,12 +181,14 @@ const ListMails = () => {
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
+                                        <th>Tanggal Terbit</th>
                                         <th>Dept</th>
                                         <th>Subject</th>
                                         <th>Detail</th>
                                         <th>Status Email</th>
                                         <th>Alasan</th>
                                         <th>Status</th>
+                                        <th>Tanggal Update</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -195,6 +197,7 @@ const ListMails = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
+                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
                                                 <td>{value?.dept}</td>
                                                 <td>{value?.subject}</td>
                                                 <td>
@@ -206,7 +209,8 @@ const ListMails = () => {
                                                 </td>
                                                 <td>{value?.mail_status}</td>
                                                 <td>{value?.notes}</td>
-                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Proses Pengerjaan' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.modified_on == null ? "-" : new Date(value?.modified_on).getDate() + " - " + new Date(value?.modified_on).getMonth() + " - " + new Date(value?.modified_on).getFullYear() + " . " + new Date(value?.modified_on).getHours() + ":" + new Date(value?.modified_on).getMinutes() + ":" + new Date(value?.modified_on).getSeconds()}</td>
                                                 <td>
                                                     {
                                                         value?.status == 0 ? (
@@ -272,7 +276,7 @@ const ListMails = () => {
                                         <Modal.Title>Edit Data Email Request</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                        <Input read={true} value={user?.division} name="dept" title={"Dept/Section"} required />
                                         <Select title={"Subject"} defaultValue={payload?.subject} name={"subject"} handleChange={handleChange} data={subjectOptions} />
                                         <Select title={"Status Email"} defaultValue={payload?.mail_status} name={"mail_status"} handleChange={handleChange} data={StatusOptions} />
                                         <Input title={"Detail"} defaultValue={payload?.detail.email_name} placeholder="Nama Pengguna" name={"detail.email_name"} handleChange={handleChange} />
@@ -297,7 +301,7 @@ const ListMails = () => {
                                 <Modal.Title>Tambah Data Email Request</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                <Input read={true} value={user?.division} name="dept" title={"Dept/Section"} required />
                                 <Select title={"Subject"} name={"subject"} handleChange={handleChange} data={subjectOptions} />
                                 <Select title={"Status Email"} name={"mail_status"} handleChange={handleChange} data={StatusOptions} />
                                 <Input title={"Detail"} placeholder="Nama Pengguna" name={"email_name"} handleChange={handleChange} />

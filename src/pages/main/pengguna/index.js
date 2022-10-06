@@ -44,9 +44,11 @@ const ListUser = () => {
     }, [])
 
     const subjectOptions = [
-        { value: 'Masalah Hardware Preventif', label: "Masalah Hardware Preventif" },
+        { value: '', label: "Pilih subject permasalahan" },
+        { value: 'Masalah Hardware', label: "Masalah Hardware" },
         { value: 'Masalah Software', label: "Masalah Software" },
         { value: 'Masalah Printer', label: "Masalah Printer" },
+        { value: 'Preventif', label: "Preventif" },
         { value: 'Masalah Lainnya', label: "Masalah Lainnya" },
     ]
 
@@ -78,7 +80,8 @@ const ListUser = () => {
             ...payload,
             subject: selected,
             user_id: user?.id,
-            req_by: user?.fullname
+            req_by: user?.fullname,
+            dept: user?.division
         }
         console.log(data)
         try {
@@ -105,6 +108,7 @@ const ListUser = () => {
             subject: selected,
             user_id: user?.id,
             req_by: user?.fullname,
+            dept: user?.division,
             id: id
         }
         console.log(data)
@@ -182,12 +186,14 @@ const ListUser = () => {
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
+                                        <th>Tanggal Terbit</th>
                                         <th>Pemohon</th>
                                         <th>Dept</th>
                                         <th>Subject</th>
                                         <th>Detail</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
+                                        <th>Tanggal Update</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -196,12 +202,14 @@ const ListUser = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
+                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
                                                 <td>{value?.req_by}</td>
                                                 <td>{value?.dept}</td>
                                                 <td>{value?.subject}</td>
                                                 <td>{value?.detail}</td>
                                                 <td>{value?.notes}</td>
-                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Proses Pengerjaan' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                <td>{value?.modified_on == null ? "-" : new Date(value?.modified_on).getDate() + " - " + new Date(value?.modified_on).getMonth() + " - " + new Date(value?.modified_on).getFullYear() + " . " + new Date(value?.modified_on).getHours() + ":" + new Date(value?.modified_on).getMinutes() + ":" + new Date(value?.modified_on).getSeconds()}</td>
                                                 <td>
                                                     {
                                                         value?.status == 0 ? (
@@ -268,16 +276,16 @@ const ListUser = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <Form>
-                                            {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
+                                            <Input title={"Request By"} read={true} placeholder="Nama Pengguna" name={"req_by"} value={user?.fullname} />
                                             <input type='hidden' name='user_id' value={user?.id} onChange={handleChange} />
-                                            <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
-                                            <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} defaultValue={payload?.subject || selected} />
+                                            <Input read={true} value={user?.division} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                            <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} required={true} defaultValue={payload?.subject || selected} />
                                             {
                                                 selected !== 'Masalah Lainnya' ?
                                                     <Select defaultValue={payload?.detail} title={"Detail"} name={"detail"} handleChange={handleChange} data={selected == 'Masalah Software' ? SoftwareOptions : selected == 'Masalah Printer' ? PrinterOptions : HardwareOptions} />
                                                     : ''
                                             }
-                                            <InputArea title={"Keterangan"} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} defaultValue={payload?.notes} handleChange={handleChange} />
+                                            <InputArea title={"Keterangan"} required={true} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} defaultValue={payload?.notes} handleChange={handleChange} />
                                         </Form>
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -298,16 +306,15 @@ const ListUser = () => {
                             </Modal.Header>
                             <Modal.Body>
                                 <Form>
-                                    {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
+                                    <Input title={"Request By"} read={true} placeholder="Nama Pengguna" name={"req_by"} value={user?.fullname} />
                                     <input type='hidden' name='user_id' value={user?.id} onChange={handleChange} />
-                                    <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
-                                    <Select title={"Subject"} name={"subject"} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} value={selected} />
+                                    <Input read={true} value={user?.division} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                    <Select title={"Subject"} name={"subject"} required={true} handleChange={(e) => setSelected(e.target.value)} data={subjectOptions} value={selected} />
                                     {
-                                        selected !== 'Masalah Lainnya' ?
-                                            <Select title={"Detail"} name={"detail"} handleChange={handleChange} data={selected == 'Masalah Software' ? SoftwareOptions : selected == 'Masalah Printer' ? PrinterOptions : HardwareOptions} />
-                                            : ''
+                                        selected !== 'Masalah Lainnya' && selected !== 'Preventif' && selected !== undefined &&
+                                        <Select title={"Detail"} name={"detail"} handleChange={handleChange} data={selected == 'Masalah Software' ? SoftwareOptions : selected == 'Masalah Printer' ? PrinterOptions : HardwareOptions} />
                                     }
-                                    <InputArea title={"Keterangan"} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
+                                    <InputArea title={"Keterangan"} required={true} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
                                 </Form>
                             </Modal.Body>
                             <Modal.Footer>

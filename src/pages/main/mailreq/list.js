@@ -33,7 +33,7 @@ const ListMailReq = () => {
 
     const getData = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:6001/mails/list?user_id=${id}`)
+            const result = await axios.get(`http://localhost:6001/mails/list`)
             setListJobs(result.data)
         } catch (error) {
             console.log(error);
@@ -46,7 +46,8 @@ const ListMailReq = () => {
 
     const approval = async (id) => {
         const data = {
-            status: 1
+            status: 1,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -69,7 +70,8 @@ const ListMailReq = () => {
 
     const reject = async (id) => {
         const data = {
-            status: 2
+            status: 2,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -94,7 +96,8 @@ const ListMailReq = () => {
         const data = {
             work_by: payload?.work_by,
             notes: payload?.notes,
-            status: 3
+            status: 3,
+            modified_on: new Date()
         }
         try {
             const result = await axios.patch(`http://localhost:6001/mails/done?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })

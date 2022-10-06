@@ -74,7 +74,8 @@ const JobList = () => {
 
     const approval = async (id) => {
         const data = {
-            status: 1
+            status: 1,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -97,7 +98,8 @@ const JobList = () => {
 
     const reject = async (id) => {
         const data = {
-            status: 2
+            status: 2,
+            modified_on: new Date()
         }
         console.log(data)
         try {
@@ -124,7 +126,8 @@ const JobList = () => {
             result: payload?.result,
             work_by: payload?.work_by,
             notes: payload?.notes,
-            status: 3
+            status: 3,
+            modified_on: new Date()
         }
         try {
             const result = await axios.patch(`http://localhost:6001/jobs/done?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
@@ -150,6 +153,9 @@ const JobList = () => {
         doc.text("Hello World", 10, 10)
         doc.text(`Date : ${value?.created_on}`, 10, 30)
         doc.text(`Dept / Section : ${value?.dept}`, 10, 40)
+
+        var imgData = 'data:image/png;base64,'+ btoa(logo_biru);
+        doc.addImage(imgData, 'png', 200, 100, 10, 80)
         doc.output('dataurlnewwindow');
         // doc.save("a4.pdf")
     }
