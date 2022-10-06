@@ -95,10 +95,10 @@ export default function Topbar({ children }) {
                                         <Modal.Body>
                                             {
                                                 notif?.length > 0 ?
-                                                    notif.slice(0,5).map((val, i) => (
+                                                    notif.map((val, i) => (
                                                         <>
                                                             <div key={i} style={{ padding: 10 }}>
-                                                                <div style={{ borderWidth: 1, width: '100%', height: 100, borderStyle: "solid", borderRadius: 10 }}>
+                                                                <div style={{ borderWidth: 1, width: '100%', height: 100, borderStyle: "solid", borderRadius: 10, borderColor: val?.status == 0 ? 'black' : val?.status == 1 ? 'blue' : val?.status == 2 ? 'red' : 'green' }}>
                                                                     <p style={{ margin: 10 }}>
                                                                         {val.content}
                                                                     </p>
