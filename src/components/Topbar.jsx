@@ -71,17 +71,20 @@ export default function Topbar({ children }) {
                         <div>
                             {
                                 notif.length > 0 ?
-                                    notif.map((val, i) => (
-                                        <div>
-                                            <div style={{ width: 15, height: 15, backgroundColor: 'red', borderRadius: 15, zIndex: -999, marginRight: 10 }}>
-                                                <p style={{ color: "white", fontSize: 10, marginLeft: 5 }}>
-                                                    {notif.filter((value) => value.read == 0).length}
-                                                </p>
-                                            </div>
-                                            <BellIcon onClick={() => { setToggleNotif(!toggleNotif) }} color='black' style={{ width: 30, height: 30, marginTop: -15 }} />
+                                    <div>
+                                        <div style={{ width: 15, height: 15, backgroundColor: 'red', borderRadius: 15, zIndex: -999, marginRight: 10 }}>
+                                            <p style={{ color: "white", fontSize: 10, marginLeft: 5 }}>
+                                                {notif.filter((value) => value.read == 0).length}
+                                            </p>
                                         </div>
-                                    ))
-                                    : <BellIcon onClick={() => { setToggleNotif(!toggleNotif) }} color='black' style={{ width: 30, height: 30 }} />
+                                        <a href='#'>
+                                            <BellIcon onClick={() => { setToggleNotif(!toggleNotif) }} color='black' style={{ width: 30, height: 30, marginTop: -15 }} />
+                                        </a>
+                                    </div>
+                                    :
+                                    <a href='#'>
+                                        <BellIcon onClick={() => { setToggleNotif(!toggleNotif) }} color='black' style={{ width: 30, height: 30 }} />
+                                    </a>
                             }
                             {
                                 toggleNotif ?
@@ -92,18 +95,18 @@ export default function Topbar({ children }) {
                                         <Modal.Body>
                                             {
                                                 notif?.length > 0 ?
-                                                    notif.map((val, i) => (
+                                                    notif.slice(0,5).map((val, i) => (
                                                         <>
-                                                            <div key={i} style={{padding:10}}>
-                                                                <div style={{borderWidth:1, width:'100%', height:100, borderStyle:"solid", borderRadius:10}}>
-                                                                    <p style={{margin:10}}>
+                                                            <div key={i} style={{ padding: 10 }}>
+                                                                <div style={{ borderWidth: 1, width: '100%', height: 100, borderStyle: "solid", borderRadius: 10 }}>
+                                                                    <p style={{ margin: 10 }}>
                                                                         {val.content}
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </>
                                                     ))
-                                                : <p>Tidak ada notifikasi untuk kamu</p>
+                                                    : <p>Tidak ada notifikasi untuk kamu</p>
                                             }
                                         </Modal.Body>
                                         {/* <Modal.Footer>

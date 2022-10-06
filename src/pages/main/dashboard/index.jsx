@@ -6,7 +6,7 @@ import axios from 'axios'
 export default function Dashboard() {
   const [data, setData] = useState()
   const [users, setUsers] = useState([])
-  const [product, setProduct] = useState([])
+  const [product, setProduct] = useState()
   const [services, setServices] = useState([])
   const [partners, setPartners] = useState([])
 
@@ -25,11 +25,15 @@ export default function Dashboard() {
       })
       setUsers(result.data)
 
-      const resultProduct = await axios.get(`http://localhost:6001/jobs/list`, {
+      const resultProduct = await axios.get(`http://localhost:6001/jobs/list?status=0`, {
         withCredentials: false,
         headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
       })
-      setProduct(resultProduct.data)
+      const resultProduct2 = await axios.get(`http://localhost:6001/jobs/list?status=1`, {
+        withCredentials: false,
+        headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
+      })
+      setProduct(resultProduct.data.length + resultProduct2.data.length)
 
       const resultServices = await axios.get(`http://localhost:6001/storages/list`, {
         withCredentials: false,
@@ -52,10 +56,10 @@ export default function Dashboard() {
             <div className='box-dash'>
               <div className='row'>
                 <div className='col-md'>
-                  <h5 className='text-white'>Total Job Request :</h5>
+                  <h5 className='text-white'>Total Job Request Masuk :</h5>
                 </div>
-                <div className='col-md'>
-                  <h5 className='text-white float-end'>{product.length}</h5>
+                <div className='col-md-2'>
+                  <h5 className='text-white float-end'>{product}</h5>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -7,6 +7,22 @@ import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 import { jsPDF } from 'jspdf'
 import { logo_biru } from '../../../assets';
+import ReactToPrint from 'react-to-print';
+import { PrintComponent } from '../../../components/Print/PrintJob';
+
+const PrintWrapper = ({ item }) => {
+    const componentRef = useRef()
+
+    return (
+        <>
+            <ReactToPrint
+                trigger={() => <button className='btn btn-warning btn-sm w-100'>Print</button>}
+                content={() => componentRef.current}
+            />
+            <PrintComponent ref={componentRef} data={item} />
+        </>
+    )
+}
 
 const JobList = () => {
 
@@ -16,6 +32,7 @@ const JobList = () => {
     const [user, setuser] = useState()
     const [listJobs, setListJobs] = useState([])
     const [toggle, setToggle] = useState(false)
+    const [rejectToggle, setRejectToggle] = useState(false)
 
     const navigate = useNavigate()
     const getSession = async () => {
@@ -99,12 +116,13 @@ const JobList = () => {
     const reject = async (id) => {
         const data = {
             status: 2,
-            modified_on: new Date()
+            modified_on: new Date(),
+            notes: payload?.notes
         }
         console.log(data)
         try {
             const result = await axios.patch(`http://localhost:6001/jobs/status?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
-            setShow(false)
+            setRejectToggle(false)
             setPayload()
             Swal.fire({
                 text: "Data Berhasil Ditolak",
@@ -154,7 +172,7 @@ const JobList = () => {
         doc.text(`Date : ${value?.created_on}`, 10, 30)
         doc.text(`Dept / Section : ${value?.dept}`, 10, 40)
 
-        var imgData = 'data:image/png;base64,'+ btoa(logo_biru);
+        var imgData = 'data:image/png;base64,' + btoa(logo_biru);
         doc.addImage(imgData, 'png', 200, 100, 10, 80)
         doc.output('dataurlnewwindow');
         // doc.save("a4.pdf")
@@ -210,7 +228,9 @@ const JobList = () => {
                                                             value?.status == 1 ?
                                                                 <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
                                                                 : value?.status == 3 ?
-                                                                    <button onClick={() => { print(value) }} className='btn btn-warning btn-sm w-100'>Print</button>
+                                                                    <>
+                                                                        <PrintWrapper item={value} key={i} />
+                                                                    </>
                                                                     : ''
                                                     }
                                                 </td>
@@ -267,11 +287,28 @@ const JobList = () => {
                                 <Button variant="secondary" onClick={() => { setShow(!show) }}>
                                     Batalkan
                                 </Button>
-                                <Button onClick={() => { reject(payload?.id) }} variant="danger">
+                                <Button onClick={() => { setRejectToggle(!rejectToggle); setShow(!show) }} variant="danger">
                                     Tolak
                                 </Button>
                                 <Button onClick={() => { approval(payload?.id) }} variant="success">
                                     Terima
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+
+                        <Modal show={rejectToggle} onHide={() => { setRejectToggle(!rejectToggle) }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Detail Data Job Request</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <InputArea title={"Keterangan"} handleChange={handleChange} name="notes" required={true} placeholder="Masukkan keterangan" />
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => { setRejectToggle(!rejectToggle) }}>
+                                    Batalkan
+                                </Button>
+                                <Button onClick={() => { reject(payload?.id) }} variant="danger">
+                                    Tolak
                                 </Button>
                             </Modal.Footer>
                         </Modal>

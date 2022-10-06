@@ -1,0 +1,44 @@
+.borderline {
+    border-width: 1px;
+    border-style: solid;
+    height: 800px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.container-box {
+    margin: 100px;
+}
+
+.contacts {
+    display: none;
+}
+
+@media print {
+    .borderline {
+        border-width: 1px;
+        border-style: solid;
+        height: 80vh;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .container-box {
+        margin-top: 50px;
+    }
+
+    .container1 {
+        border-bottom: 1px;
+        border-style: solid;
+        margin-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .square {
+        width: 35px;
+        height: 35px;
+        border-width: 1px;
+        border-style: solid;
+        margin-left: 20px;
+    }
+}

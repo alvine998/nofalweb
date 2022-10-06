@@ -30,6 +30,7 @@ import ListMailReq from './pages/main/mailreq/list';
 import JobList from './pages/main/pengguna/jobList';
 import ListRegisPenyimpanan from './pages/main/registrasi/list';
 import Help from './pages/help';
+import JobPrint from './pages/main/pengguna/print';
 
 function App() {
   return (
@@ -54,6 +55,9 @@ function App() {
         <Route path={"/main/work/mail/list"} element={<ListMailReq />} />
         <Route path={"/main/work/job/list"} element={<JobList />} />
         <Route path={"/main/work/regis/list"} element={<ListRegisPenyimpanan />} />
+
+        {/* Print */}
+        {/* <Route path={"/main/job/print"} element={<JobPrint />} /> */}
 
         <Route path={"/main/profil/user"} element={<Profil />} />
         <Route path={"/main/profil/edit"} element={<EditProfil />} />
