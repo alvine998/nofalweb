@@ -19,6 +19,7 @@ const PurchaseRequest = () => {
     const [editToggle, setEditToggle] = useState(false)
     const [accToggle, setAccToggle] = useState(false)
     const [user, setuser] = useState()
+    const [dataJob, setDataJob] = useState([])
 
     const navigate = useNavigate()
     const getSession = async () => {
@@ -30,6 +31,16 @@ const PurchaseRequest = () => {
             setuser(data)
         }
         getData(data?.id)
+        getDataJob()
+    }
+
+    const getDataJob = async () => {
+        try {
+            const result = await axios.get(`http://localhost:6001/jobs/list?status=1`)
+            setDataJob(result.data)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const getData = async (id) => {
@@ -50,9 +61,11 @@ const PurchaseRequest = () => {
             return alert("Cannot insert NaN value")
         }
         const data = {
-            dept: payload?.dept,
-            req_by: payload?.req_by,
+            ...payload,
+            dept: user?.division,
+            req_by: user?.fullname,
             in_kind: payload?.in_kind,
+            job_id: payload?.job_id,
             total: total,
             estimation_price: parseFloat(estimation),
             total_price: price,
@@ -114,8 +127,8 @@ const PurchaseRequest = () => {
     ]
 
     const [total, setTotal] = useState(payload?.total || 0)
-    const [price, setPrice] = useState(payload?.total_price ||0)
-    const [estimation, setEstimation] = useState(payload?.estimation_price ||0)
+    const [price, setPrice] = useState(payload?.total_price || 0)
+    const [estimation, setEstimation] = useState(payload?.estimation_price || 0)
 
     useEffect(() => {
         if (price == NaN) {
@@ -233,13 +246,20 @@ const PurchaseRequest = () => {
                                         <Modal.Title>Edit Data Purchase Request</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                        <Input title={"Request By"} defaultValue={payload?.req_by} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
-                                        <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                        <Input title={"Request By"} read={true} value={user?.fullname} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
+                                        <Input title={"Dept/Section"} read={true} value={user?.division} placeholder="Masukkan Divisi" name={"dept"} handleChange={handleChange} />
+                                        <label className='form-label mt-2'>Job Request</label>
+                                        <select className='form-select' value={payload?.job_id} onChange={handleChange} name="job_id">
+                                            <option value="">Pilih Job Request</option>
+                                            {
+                                                dataJob?.map((val, i) => <option value={val?.id}>{`[0${val?.id}] : ${val?.subject} - ${val?.detail} - ${val?.dept}`}</option>)
+                                            }
+                                        </select>
                                         <InputArea title={"Kind of Service"} defaultValue={payload?.in_kind} placeholder="Silahkan Tulis Disini" name={"in_kind"} handleChange={handleChange} />
                                         <div style={{ marginTop: 20 }}>
                                             <div className='row g-2'>
                                                 <div className='col-md-1'>
-                                                    <button onClick={() => { total < 0 ? setTotal(0) : setTotal(total - 1) }}>
+                                                    <button onClick={() => { payload?.total < 0 ? setPayload({ ...payload, total: 0 }) : setPayload({ ...payload, total: payload?.total - 1 , total_price: (payload?.total - 1) * payload?.estimation_price}) }}>
                                                         <MinusCircleIcon width={30} height={30} />
                                                     </button>
                                                 </div>
@@ -247,7 +267,7 @@ const PurchaseRequest = () => {
                                                     <input value={payload?.total || total} style={{ marginLeft: 'auto', marginRight: 'auto' }} readOnly className='form-control text-center' />
                                                 </div>
                                                 <div className='col-md'>
-                                                    <button onClick={() => { setTotal(total + 1) }}>
+                                                    <button onClick={() => { setPayload({ ...payload, total: payload?.total + 1 , total_price: (payload?.total + 1) * payload?.estimation_price}) }}>
                                                         <PlusCircleIcon width={30} height={30} />
                                                     </button>
                                                 </div>
@@ -294,8 +314,15 @@ const PurchaseRequest = () => {
                                 <Modal.Title>Tambah Data Purchase Request</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Input title={"Request By"} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
-                                <Select data={divisionOptions} defaultValue={payload?.dept} name="dept" title={"Dept/Section"} required handleChange={handleChange} />
+                                <Input title={"Request By"} read={true} value={user?.fullname} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
+                                <Input title={"Dept/Section"} read={true} value={user?.division} placeholder="Masukkan Divisi" name={"dept"} handleChange={handleChange} />
+                                <label className='form-label mt-2'>Job Request</label>
+                                <select className='form-select' value={payload?.job_id} onChange={handleChange} name="job_id">
+                                    <option value="">Pilih Job Request</option>
+                                    {
+                                        dataJob?.map((val, i) => <option value={val?.id}>{`[0${val?.id}] : ${val?.subject} - ${val?.detail} - ${val?.dept}`}</option>)
+                                    }
+                                </select>
                                 <InputArea title={"Kind of Service"} placeholder="Silahkan Tulis Disini" name={"in_kind"} handleChange={handleChange} />
                                 <div style={{ marginTop: 20 }}>
                                     <div className='row g-2'>

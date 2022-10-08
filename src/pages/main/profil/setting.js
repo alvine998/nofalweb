@@ -121,10 +121,11 @@ const EditProfil = ({ navigate }) => {
                                         <UserIcon height={250} width={250} color={"black"} />
                                     </Col>
                                     <Col style={{ marginTop: 20 }}>
+                                        {console.log("payload : ", payload)}
                                         <Input title={"Username"} defaultValue={payload?.username} name="username" handleChange={handleChange} placeholder="Masukkan username" />
                                         <Input title={"Nama Lengkap"} defaultValue={payload?.fullname} name="fullname" handleChange={handleChange} placeholder="Masukkan nama lengkap" />
-                                        <Select data={divisionOptions} defaultValue={payload?.division} handleChange={handleChange} name="division" title={"Divisi"} />
-                                        <Select data={genderOptions} defaultValue={payload?.gender} handleChange={handleChange} name="gender" title={"Jenis Kelamin"} />
+                                        <Select data={divisionOptions} value={payload?.division} handleChange={handleChange} name="division" title={"Divisi"} />
+                                        <Select data={genderOptions} value={payload?.gender} handleChange={handleChange} name="gender" title={"Jenis Kelamin"} />
                                         <Input title={"Email"} name="email" handleChange={handleChange} defaultValue={payload?.email} placeholder="Masukkan email pengguna" />
                                         <div>
                                             <button onClick={()=>update(payload?.id)} className='btn btn-sm btn-primary w-100 mt-5' >Simpan</button>
