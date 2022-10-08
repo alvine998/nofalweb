@@ -259,7 +259,7 @@ const PurchaseRequest = () => {
                                         <div style={{ marginTop: 20 }}>
                                             <div className='row g-2'>
                                                 <div className='col-md-1'>
-                                                    <button onClick={() => { payload?.total < 0 ? setPayload({ ...payload, total: 0 }) : setPayload({ ...payload, total: payload?.total - 1 , total_price: (payload?.total - 1) * payload?.estimation_price}) }}>
+                                                    <button onClick={() => { payload?.total < 1 ? setPayload({ ...payload, total: 0 }) : setPayload({ ...payload, total: payload?.total - 1 , total_price: (payload?.total - 1) * payload?.estimation_price}) }}>
                                                         <MinusCircleIcon width={30} height={30} />
                                                     </button>
                                                 </div>
@@ -327,7 +327,7 @@ const PurchaseRequest = () => {
                                 <div style={{ marginTop: 20 }}>
                                     <div className='row g-2'>
                                         <div className='col-md-1'>
-                                            <button onClick={() => { total < 0 ? setTotal(0) : setTotal(total - 1) }}>
+                                            <button onClick={() => { total < 1 ? setTotal(0) : setTotal(total - 1) }}>
                                                 <MinusCircleIcon width={30} height={30} />
                                             </button>
                                         </div>
