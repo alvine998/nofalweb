@@ -18,9 +18,9 @@
     .borderline {
         border-width: 1px;
         border-style: solid;
-        height: 80vh;
+        height: 87vh;
         width: 100%;
-        margin-top: 30px;
+        margin-top: 10px;
     }
 
     .container-box {
@@ -40,5 +40,15 @@
         border-width: 1px;
         border-style: solid;
         margin-left: 20px;
+    }
+
+    .sm-square {
+        width: 20px;
+        height: 20px;
+        border-width: 1px;
+        border-style: solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

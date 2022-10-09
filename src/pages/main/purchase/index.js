@@ -228,6 +228,8 @@ const PurchaseRequest = () => {
                                                 <td>{value?.total_price}</td>
                                                 {/* <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td> */}
                                                 <td>
+                                                    <button onClick={() => {}} className='btn btn-primary btn-sm w-100'>Print</button>
+                                                    <div className='mt-1' />
                                                     <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
                                                     <div className='mt-1' />
                                                     <button onClick={() => { setToggle(!toggle); setPayload(value) }} className='btn btn-danger btn-sm w-100'>Hapus</button>
@@ -259,7 +261,7 @@ const PurchaseRequest = () => {
                                         <div style={{ marginTop: 20 }}>
                                             <div className='row g-2'>
                                                 <div className='col-md-1'>
-                                                    <button onClick={() => { payload?.total < 1 ? setPayload({ ...payload, total: 0 }) : setPayload({ ...payload, total: payload?.total - 1 , total_price: (payload?.total - 1) * payload?.estimation_price}) }}>
+                                                    <button onClick={() => { payload?.total < 1 ? setPayload({ ...payload, total: 0 }) : setPayload({ ...payload, total: payload?.total - 1, total_price: (payload?.total - 1) * payload?.estimation_price }) }}>
                                                         <MinusCircleIcon width={30} height={30} />
                                                     </button>
                                                 </div>
@@ -267,7 +269,7 @@ const PurchaseRequest = () => {
                                                     <input value={payload?.total || total} style={{ marginLeft: 'auto', marginRight: 'auto' }} readOnly className='form-control text-center' />
                                                 </div>
                                                 <div className='col-md'>
-                                                    <button onClick={() => { setPayload({ ...payload, total: payload?.total + 1 , total_price: (payload?.total + 1) * payload?.estimation_price}) }}>
+                                                    <button onClick={() => { setPayload({ ...payload, total: payload?.total + 1, total_price: (payload?.total + 1) * payload?.estimation_price }) }}>
                                                         <PlusCircleIcon width={30} height={30} />
                                                     </button>
                                                 </div>

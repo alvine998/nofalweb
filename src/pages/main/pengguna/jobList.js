@@ -143,6 +143,7 @@ const JobList = () => {
             accepted_by: name,
             result: payload?.result,
             work_by: payload?.work_by,
+            approved_by: payload?.approved_by,
             notes: payload?.notes,
             status: 3,
             modified_on: new Date()
