@@ -18,21 +18,16 @@ const PrintComponentPurchase = forwardRef((props, ref) => {
                         <img src={logo_biru} style={{ width: 150, height: 50 }} />
                         <div>
                             <h5 style={{ textAlign: "right" }}>
-                                No. CIN-FM-EDP-01-01 <br />
-                                Rev.03
+                                No.CIN-FM-EDP-01-05<br />
+                                Rev.00
                             </h5>
                         </div>
                     </div>
                     <div className='borderline'>
                         <div className='container1'>
-                            <h2 style={{ textAlign: "center" }}>
-                                EDP JOB REQUEST<br />
-                                HARDWARE AND SOFTWARE<br />
-                                NO: 0{payload?.id}/EDP/2022
-                            </h2>
-                            <h2 style={{ marginInline: 20, marginBottom: 20 }}>
-                                DATE : {new Date(payload?.created_on).getDate() + " - " + new Date(payload?.created_on).getMonth() + " - " + new Date(payload?.created_on).getFullYear()}<br />
-                                DEPT / SECTION : {payload?.dept.toUpperCase()}
+                            <h2 style={{textAlign:'center'}}>
+                                FORMULIR REGISTRASI NOTEBOOK, FLASHDISK, DAN MEDIA
+                                PENYIMPANAN PT.CRESTEC INDONESIA
                             </h2>
                         </div>
                         <div className='container1'>

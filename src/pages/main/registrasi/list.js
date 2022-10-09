@@ -6,6 +6,23 @@ import Swal from 'sweetalert2';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 import { jsPDF } from 'jspdf'
+import { useRef } from 'react';
+import ReactToPrint from 'react-to-print';
+import { PrintComponentRegis } from '../../../components/Print/PrintRegis';
+
+const PrintWrapper = ({ item }) => {
+    const componentRef = useRef()
+
+    return (
+        <>
+            <ReactToPrint
+                trigger={() => <button className='btn btn-warning btn-sm w-100'>Print</button>}
+                content={() => componentRef.current}
+            />
+            <PrintComponentRegis ref={componentRef} data={item} />
+        </>
+    )
+}
 
 const ListRegisPenyimpanan = () => {
 
@@ -188,8 +205,9 @@ const ListRegisPenyimpanan = () => {
                                                             value?.status == 1 ?
                                                                 <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
                                                                 : value?.status == 3 ?
-                                                                    <button onClick={() => { print(value) }} className='btn btn-warning btn-sm w-100'>Print</button>
-                                                                    : ''
+                                                                    <>
+                                                                        <PrintWrapper item={value} key={i} />
+                                                                    </> : ''
                                                     }
                                                 </td>
                                             </tr>
