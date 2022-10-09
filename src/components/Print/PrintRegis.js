@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { logo_biru } from '../../assets'
 import './print.css'
 
-const PrintComponent = forwardRef((props, ref) => {
+const PrintComponentRegis = forwardRef((props, ref) => {
     const [payload, setPayload] = useState()
     useEffect(() => {
         setPayload(props.data)
@@ -18,7 +18,7 @@ const PrintComponent = forwardRef((props, ref) => {
                         <img src={logo_biru} style={{ width: 150, height: 50 }} />
                         <div>
                             <h5 style={{ textAlign: "right" }}>
-                                No.CIN-FM-EDP-01-01<br />
+                                No. CIN-FM-EDP-01-01 <br />
                                 Rev.03
                             </h5>
                         </div>
@@ -303,4 +303,4 @@ const PrintComponent = forwardRef((props, ref) => {
     )
 })
 
-export { PrintComponent }
+export { PrintComponentRegis }

@@ -23,6 +23,14 @@
         margin-top: 10px;
     }
 
+    .borderlineMail {
+        border-width: 1px;
+        border-style: solid;
+        height: 53vh;
+        width: 100%;
+        margin-top: 10px;
+    }
+
     .container-box {
         margin-top: 50px;
     }

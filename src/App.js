@@ -30,7 +30,6 @@ import ListMailReq from './pages/main/mailreq/list';
 import JobList from './pages/main/pengguna/jobList';
 import ListRegisPenyimpanan from './pages/main/registrasi/list';
 import Help from './pages/help';
-import JobPrint from './pages/main/pengguna/print';
 
 function App() {
   return (

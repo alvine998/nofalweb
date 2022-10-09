@@ -166,19 +166,6 @@ const JobList = () => {
         }
     }
 
-    const print = async (value) => {
-        const doc = new jsPDF()
-
-        doc.text("Hello World", 10, 10)
-        doc.text(`Date : ${value?.created_on}`, 10, 30)
-        doc.text(`Dept / Section : ${value?.dept}`, 10, 40)
-
-        var imgData = 'data:image/png;base64,' + btoa(logo_biru);
-        doc.addImage(imgData, 'png', 200, 100, 10, 80)
-        doc.output('dataurlnewwindow');
-        // doc.save("a4.pdf")
-    }
-
     const handleChange = (e) => {
         setPayload({ ...payload, [e.target.name]: e.target.value })
     }

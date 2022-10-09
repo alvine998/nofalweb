@@ -6,6 +6,23 @@ import Swal from 'sweetalert2';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 import { jsPDF } from 'jspdf'
+import ReactToPrint from 'react-to-print';
+import { PrintComponentMail } from '../../../components/Print/PrintMail';
+import { useRef } from 'react';
+
+const PrintWrapper = ({ item }) => {
+    const componentRef = useRef()
+
+    return (
+        <>
+            <ReactToPrint
+                trigger={() => <button className='btn btn-warning btn-sm w-100'>Print</button>}
+                content={() => componentRef.current}
+            />
+            <PrintComponentMail ref={componentRef} data={item} />
+        </>
+    )
+}
 
 const ListMailReq = () => {
 
@@ -192,7 +209,9 @@ const ListMailReq = () => {
                                                             value?.status == 1 ?
                                                                 <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
                                                                 : value?.status == 3 ?
-                                                                    <button onClick={() => { print(value) }} className='btn btn-warning btn-sm w-100'>Print</button>
+                                                                    <>
+                                                                        <PrintWrapper item={value} key={i} />
+                                                                    </>
                                                                     : ''
                                                     }
                                                 </td>
