@@ -90,10 +90,11 @@ const PrintComponentRegis = forwardRef((props, ref) => {
                                 2. Kuning (yellow) CIN boleh digunakan diluar dan didalam CIN<br />
                                 3. Hijau (green) Pribadi boleh digunakan di CIN dengan akses terbatas dan dilaporkan ke EDP
                             </h5>
+                            <br/>
                             <h2>Catatan :</h2>
                             <h5>
                                 - Mohon digunakan untuk kepentingan perusahaan dan apabila digunakan untuk kepentingan Pribadi
-                                yang tidak berhubungan dengan pekerjaan akan dikenai sanksi yang sesuai dengan peraturan perusahaan.<br />
+                                yang tidak berhubungan dengan pekerjaan akan dikenai sanksi yang sesuai dengan peraturan perusahaan.<br /><br />
                                 - Apabila hilang atau rusak mohon dilaporkan ke departemen EDP dan HRD/Legal serta penganggung jawab
                                 membuat kronologi kejadian.
                             </h5>

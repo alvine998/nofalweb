@@ -14,283 +14,112 @@ const PrintComponentPurchase = forwardRef((props, ref) => {
             <div className="contacts">
                 <div ref={ref} className="container-box">
 
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" }}>
-                        <img src={logo_biru} style={{ width: 150, height: 50 }} />
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                         <div>
-                            <h5 style={{ textAlign: "right" }}>
-                                No.CIN-FM-EDP-01-05<br />
+                            <img src={logo_biru} style={{ width: 200, height: 50 }} />
+                            <div style={{ marginTop: 40, borderWidth: 1, borderStyle: "solid", width: 150, height: 30 }}>
+                                <h5 style={{ textAlign: "center" }}>Normal / Urgent</h5>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 style={{ textAlign: "left" }}>
+                                No. CIN-FM-EDP-01-02<br />
                                 Rev.00
+                            </h5>
+
+                            <br />
+                            <h5>
+                                PT.CRESTEC INDONESIA<br />
+                                Kawasan Industri MM 2100<br />
+                                Jl. Lombok I Blok N-2, 17, 18<br />
+                                Cikarang Barat<br />
+                                Bekasi 17520 Jawa Barat<br />
+                                Telp: 62(21)898-0258
                             </h5>
                         </div>
                     </div>
-                    <div className='borderline'>
-                        <div className='container1'>
-                            <h2 style={{textAlign:'center'}}>
-                                FORMULIR REGISTRASI NOTEBOOK, FLASHDISK, DAN MEDIA
-                                PENYIMPANAN PT.CRESTEC INDONESIA
-                            </h2>
+                    <div style={{marginTop:20}}>
+                        <h2 style={{ textAlign: 'center', fontWeight: "bold", textDecorationLine: "underline", textDecorationWidth: 1, fontSize: 20 }}>
+                            FORM NON MATERIAL / SERVICE REQUEST (NM/SR)
+                        </h2>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                        <div>
+                            <h2>Departement/Sect : {payload?.dept}</h2>
                         </div>
-                        <div className='container1'>
-                            <div style={{ display: 'flex', flexDirection: "row", marginInline: 20 }}>
-                                <h2>SUBJECT : </h2>
-                                <div style={{ display: 'flex', flexDirection: "row" }}>
-                                    <div>
-                                        <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                            <div className='square'>
-                                                {
-                                                    payload?.subject == 'Masalah Hardware' ? <CheckIcon color='green' width={30} height={30} /> : ''
-                                                }
-                                            </div>
-                                            <h5 style={{ marginLeft: 10 }}>Masalah Hardware</h5>
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 20 }}>
-                                            <div className='square'>
-                                                {
-                                                    payload?.subject == 'Masalah Software' ? <CheckIcon color='green' width={30} height={30} /> : ''
-                                                }
-                                            </div>
-                                            <h5 style={{ marginLeft: 10 }}>Masalah Software</h5>
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 20 }}>
-                                            <div className='square'>
-                                                {
-                                                    payload?.subject == 'Preventif' && <CheckIcon color='green' width={30} height={30} />
-                                                }
-                                            </div>
-                                            <h5 style={{ marginLeft: 10 }}>Preventif</h5>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                            <div className='square'>
-                                                {
-                                                    payload?.subject == 'Masalah Printer' && <CheckIcon color='green' width={30} height={30} />
-                                                }
-                                            </div>
-                                            <h5 style={{ marginLeft: 10 }}>Masalah Printer</h5>
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 20 }}>
-                                            <div className='square'>
-                                                {
-                                                    payload?.subject == 'Masalah Lainnya' && <CheckIcon color='green' width={30} height={30} />
-                                                }
-                                            </div>
-                                            <h5 style={{ marginLeft: 10 }}>Masalah Lain-lain</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <h2>Date : {payload?.created_on.substr(0, 10)}</h2>
                         </div>
+                    </div>
 
-                        {/* Detail */}
-                        <div className='container1'>
-                            <h2 style={{ marginLeft: 20 }}>Detail :</h2>
-                            <div style={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
-                                <div style={{ display: 'flex', flexDirection: "row" }}>
-                                    <div>
-                                        <h2>Hardware</h2>
-                                        <div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'CPU' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>CPU</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'Monitor' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>Monitor</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'LAN' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>LAN (Jaringan)</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'DLL' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>DLL</h5>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div>
+                        <table className='table  table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kind Of Service</th>
+                                    <th>Quantity</th>
+                                    <th>Estimated Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <td>{payload?.in_kind}</td>
+                                    <td>{payload?.total}</td>
+                                    <td>{payload?.estimation_price}</td>
+                                    <td>{payload?.total_price}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{ marginBottom: 50 }}>
+                        <h2>Remarks :</h2>
+                    </div>
 
-                                    <div className='mx-5'>
-                                        <h2>Software</h2>
-                                        <div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'OS/Office' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>OS/Office</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'Anti Virus' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>Anti Virus</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'OPIS Sistem' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>OPIS Sistem</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'ACCPAC' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>ACCPAC</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'DLL' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>DLL</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <h2>Printer</h2>
-                                        <div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'Paper Jam' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>Paper Jam</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'Head Printer' ? <CheckIcon color='green' width={20} height={20} /> : ''
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>Head Printer</h5>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                                <div className='sm-square'>
-                                                    {
-                                                        payload?.detail == 'DLL' && <CheckIcon color='green' width={20} height={20} />
-                                                    }
-                                                </div>
-                                                <h5 style={{ marginLeft: 10 }}>DLL</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+                    <div>
+                        <table className='table table-bordered' style={{ borderCollapse: "collapse", borderWidth: 1, borderStyle: "solid" }}>
+                            <thead>
+                                <tr style={{ textAlign: "center" }}>
+                                    <th>Request By</th>
+                                    <th colSpan={"2"}>Checked By</th>
+                                    <th colSpan={"3"}>Approved By</th>
+                                    <th>Received By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style={{ height: 70 }}>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>{payload?.req_by}</th>
+                                    <td>Supervisor</td>
+                                    <td>Manager Dept</td>
+                                    <td>HRD & GA</td>
+                                    <td>Accounting</td>
+                                    <td>Vice President</td>
+                                    <td>Purchasing</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{ marginTop: 20 }}>
+                        <h2>The reason was refused :</h2>
+                        <div style={{ paddingLeft: 20 }}>
+                            <div style={{ width: '100%', borderBottomWidth: 1, borderBottomStyle: "solid", height: 40 }} />
+                            <div style={{ width: '100%', borderBottomWidth: 1, borderBottomStyle: "solid", height: 40 }} />
                         </div>
-
-                        {/* Keterangan */}
-                        <div className='container1 px-2'>
-                            <h2>Keterangan :</h2>
-                            <p>
-                                {payload?.notes}
-                            </p>
-                        </div>
-
-                        {/* Diperbaiki & Hasil */}
-                        <div className='container1 px-2'>
-                            <h2>Diperbaiki / Dipasang Oleh :</h2>
-                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.work_by == 'EDP Manager' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>EDP</h5>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.work_by == 'Service' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>Service</h5>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.work_by == 'Maintenance' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>Maintenance</h5>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.work_by == 'Sendiri' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>Sendiri</h5>
-                                </div>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                <h2>Hasil : </h2>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.result == 'Ok' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>Ok</h5>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
-                                    <div className='square'>
-                                        {
-                                            payload?.result == 'Not Ok' && <CheckIcon color='green' width={30} height={30} />
-                                        }
-                                    </div>
-                                    <h5 style={{ marginLeft: 10 }}>No</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* TTD */}
-                        <div className='px-2'>
-                            <div style={{ display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                <div style={{textAlign:"center"}}>
-                                    <h2>Request By</h2>
-                                    <h5 style={{marginTop:50}}>{`(${payload?.req_by})`}</h5>
-                                </div>
-
-                                <div style={{textAlign:"center", paddingInline:80}}>
-                                    <h2>Accepted By</h2>
-                                    <h5 style={{marginTop:50}}>{`(${payload?.accepted_by})`}</h5>
-                                </div>
-
-                                <div style={{textAlign:"center"}}>
-                                    <h2>Approved By</h2>
-                                    <h5 style={{marginTop:50}}>{`(${payload?.approved_by})`}</h5>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div style={{ marginTop: 50 }}>
+                        <h5>Sheet 1 (Original) : Accounting<br />Sheet 2 (Re ) : Purchasing<br />Sheet 3 (Green) : User<br />Sheet 4 (Blue) : HRD & GA</h5>
                     </div>
                 </div>
             </div>

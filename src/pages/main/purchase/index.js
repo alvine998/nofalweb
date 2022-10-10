@@ -7,6 +7,23 @@ import Swal from 'sweetalert2';
 import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
 import { jsPDF } from 'jspdf'
+import ReactToPrint from 'react-to-print';
+import { PrintComponentPurchase } from '../../../components/Print/PrintPurchase';
+import { useRef } from 'react';
+
+const PrintWrapper = ({ item }) => {
+    const componentRef = useRef()
+
+    return (
+        <>
+            <ReactToPrint
+                trigger={() => <button className='btn btn-primary btn-sm w-100'>Print</button>}
+                content={() => componentRef.current}
+            />
+            <PrintComponentPurchase ref={componentRef} data={item} />
+        </>
+    )
+}
 
 const PurchaseRequest = () => {
 
@@ -228,7 +245,9 @@ const PurchaseRequest = () => {
                                                 <td>{value?.total_price}</td>
                                                 {/* <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td> */}
                                                 <td>
-                                                    <button onClick={() => {}} className='btn btn-primary btn-sm w-100'>Print</button>
+                                                    <>
+                                                        <PrintWrapper item={value} key={i} />
+                                                    </>
                                                     <div className='mt-1' />
                                                     <button onClick={() => { setEditToggle(!editToggle); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Edit</button>
                                                     <div className='mt-1' />
