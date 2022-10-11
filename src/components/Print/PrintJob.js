@@ -226,7 +226,7 @@ const PrintComponent = forwardRef((props, ref) => {
                                 <div style={{ display: 'flex', flexDirection: "row", alignItems: "center" }}>
                                     <div className='square'>
                                         {
-                                            payload?.work_by == 'EDP Manager' && <CheckIcon color='green' width={30} height={30} />
+                                            payload?.work_by == 'EDP' && <CheckIcon color='green' width={30} height={30} />
                                         }
                                     </div>
                                     <h5 style={{ marginLeft: 10 }}>EDP</h5>
@@ -285,9 +285,9 @@ const PrintComponent = forwardRef((props, ref) => {
                                     <h5 style={{marginTop:50}}>{`(${payload?.req_by})`}</h5>
                                 </div>
 
-                                <div style={{textAlign:"center", paddingInline:80}}>
+                                <div style={{textAlign:"center", paddingInline:50}}>
                                     <h2>Accepted By</h2>
-                                    <h5 style={{marginTop:50}}>{`(${payload?.accepted_by})`}</h5>
+                                    <h5 style={{marginTop:50}}>{`(${payload?.req_by})`}</h5>
                                 </div>
 
                                 <div style={{textAlign:"center"}}>

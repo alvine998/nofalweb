@@ -70,7 +70,7 @@ export default function Dashboard() {
                 <div className='col-md'>
                   <h5 className='text-white'>Total Email Request :</h5>
                 </div>
-                <div className='col-md'>
+                <div className='col-md-2'>
                   <h5 className='text-white float-end'>{users.length}</h5>
                 </div>
               </div>

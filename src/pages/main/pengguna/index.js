@@ -64,7 +64,7 @@ const ListUser = () => {
         { value: '', label: 'Detail Hardware' },
         { value: 'CPU', label: 'CPU' },
         { value: 'Monitor', label: 'Monitor' },
-        { value: 'Masalah Printer', label: 'Masalah Printer' },
+        { value: 'LAN', label: 'LAN' },
         { value: 'Lainnya', label: 'Lainnya' },
     ]
 

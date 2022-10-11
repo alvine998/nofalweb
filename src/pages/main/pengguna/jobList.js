@@ -60,6 +60,7 @@ const JobList = () => {
     }, [])
 
     const handleOptions = [
+        { value: '', label: "Dikerjakan Oleh" },
         { value: 'EDP', label: "EDP" },
         { value: 'Service', label: "Service" },
         { value: 'Maintenance', label: "Maintenance" },
@@ -188,6 +189,7 @@ const JobList = () => {
                                 <thead>
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
+                                        <th>Tanggal</th>
                                         <th>Pemohon</th>
                                         <th>Dept</th>
                                         <th>Subject</th>
@@ -202,6 +204,7 @@ const JobList = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
+                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
                                                 <td>{value?.req_by}</td>
                                                 <td>{value?.dept}</td>
                                                 <td>{value?.subject}</td>
