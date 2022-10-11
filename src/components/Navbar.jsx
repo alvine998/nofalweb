@@ -68,7 +68,7 @@ const Navbar = () => {
                                     <>
                                         <div>
                                             {
-                                                notif.length > 0 ?
+                                                notif ?
                                                     <div>
                                                         <div style={{ width: 15, height: 15, backgroundColor: 'red', borderRadius: 15, zIndex: -999, marginRight: 10 }}>
                                                             <p style={{ color: "white", fontSize: 10, marginLeft: 5 }}>
