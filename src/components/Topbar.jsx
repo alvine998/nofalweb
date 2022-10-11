@@ -109,14 +109,6 @@ export default function Topbar({ children }) {
                                                     : <p>Tidak ada notifikasi untuk kamu</p>
                                             }
                                         </Modal.Body>
-                                        {/* <Modal.Footer>
-                                            <Button variant="warning" onClick={() => setToggleNotif(!toggleNotif)}>
-                                                Kembali
-                                            </Button>
-                                            <Button variant="danger" onClick={removeSession}>
-                                                Ya
-                                            </Button>
-                                        </Modal.Footer> */}
                                     </Modal> : ''
                             }
                         </div>

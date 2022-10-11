@@ -1,3 +1,4 @@
+import { InformationCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid'
 import React, { useEffect, useState } from 'react'
 import { Accordion } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
@@ -97,6 +98,11 @@ export default function Sidebar() {
                     <a href='/main/purchase/request' onClick={() => setOpenKey(2)} className={window.location.pathname == '/main/purchase/request' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Purchase Request</a>
                   </Accordion.Body>
                 </Accordion.Item>
+
+                <center style={{marginTop:20}}>
+                  <QuestionMarkCircleIcon color='slate' style={{ width: 30, height: 30}}/>
+                  <a href='/help' className={'text-decoration-none text-black'}>Bantuan</a>
+                </center>
               </>
             )
           }
