@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Accordion } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { logo, logo_bulat1, logo_bulat2, logo_rajawali } from '../assets'
+import { BiHelpCircle } from "react-icons/gi"; 
 import './style.css'
 
 export default function Sidebar() {
@@ -77,6 +78,9 @@ export default function Sidebar() {
                   </Accordion.Body>
                   <Accordion.Body className={window.location.pathname == '/main/regis/penyimpanan' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
                     <a href='/main/regis/penyimpanan' onClick={() => setOpenKey(1)} className={window.location.pathname == '/main/regis/penyimpanan' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Registrasi Penyimpanan</a>
+                  </Accordion.Body>
+                  <Accordion.Body className={window.location.pathname == '/help' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+                  <a class={window.location.pathname == '/help' ? "nav-link active" : "nav-link"} href="/help">Bantuan</a>
                   </Accordion.Body>
                 </Accordion.Item>
 

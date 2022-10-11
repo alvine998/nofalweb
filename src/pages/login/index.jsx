@@ -68,7 +68,7 @@ export default function Login() {
         <form onSubmit={onLogin} action="#">
           <div>
             <label className="form-label">Username</label>
-            <input onChange={onchange} placeholder="johndoe@domain.com" value={payload?.username} name="username" className="form-control" required />
+            <input onChange={onchange} placeholder="Username" value={payload?.username} name="username" className="form-control" required />
           </div>
           <div>
             <label className="form-label mt-2">Password</label>

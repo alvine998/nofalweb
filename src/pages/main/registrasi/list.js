@@ -145,6 +145,7 @@ const ListRegisPenyimpanan = () => {
     }
 
     const handleOptions = [
+        { value: '', label: "Dikerjakan Oleh" },
         { value: 'EDP', label: "EDP" },
         { value: 'Service', label: "Service" },
         { value: 'Maintenance', label: "Maintenance" },
