@@ -242,7 +242,7 @@ const PurchaseRequest = () => {
                                                 <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
                                                 <td>{value?.req_by}</td>
                                                 <td>{value?.dept}</td>
-                                                <td>{value?.job_id}/EDP/2022</td>
+                                                <td>{value?.job_id ? (value?.job_id + "/EDP/2022") : "-"}</td>
                                                 <td>{value?.in_kind}</td>
                                                 <td>{value?.total}</td>
                                                 <td>{value?.estimation_price}</td>
@@ -341,9 +341,9 @@ const PurchaseRequest = () => {
                             <Modal.Body>
                                 <Input title={"Request By"} read={true} value={user?.fullname} placeholder="Masukkan Nama Pengguna" name={"req_by"} handleChange={handleChange} />
                                 <Input title={"Dept/Section"} read={true} value={user?.division} placeholder="Masukkan Divisi" name={"dept"} handleChange={handleChange} />
-                                <label className='form-label mt-2'>Job Request</label>
+                                <label className='form-label mt-2'>Pilih Job Request</label>
                                 <select className='form-select' value={payload?.job_id} onChange={handleChange} name="job_id">
-                                    <option value="">Pilih Job Request</option>
+                                    <option value="">Tanpa Job Request</option>
                                     {
                                         dataJob?.map((val, i) => <option value={val?.id}>{`[0${val?.id}] : ${val?.subject} - ${val?.detail} - ${val?.dept}`}</option>)
                                     }
