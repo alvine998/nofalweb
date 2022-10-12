@@ -79,9 +79,6 @@ export default function Sidebar() {
                   <Accordion.Body className={window.location.pathname == '/main/regis/penyimpanan' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
                     <a href='/main/regis/penyimpanan' onClick={() => setOpenKey(1)} className={window.location.pathname == '/main/regis/penyimpanan' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Registrasi Penyimpanan</a>
                   </Accordion.Body>
-                  <Accordion.Body className={window.location.pathname == '/help' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
-                  <a class={window.location.pathname == '/help' ? "nav-link active" : "nav-link"} href="/help">Bantuan</a>
-                  </Accordion.Body>
                 </Accordion.Item>
 
                 <Accordion.Item eventKey={'2'}>
@@ -102,15 +99,14 @@ export default function Sidebar() {
                     <a href='/main/purchase/request' onClick={() => setOpenKey(2)} className={window.location.pathname == '/main/purchase/request' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Purchase Request</a>
                   </Accordion.Body>
                 </Accordion.Item>
-
-                <center style={{marginTop:20}}>
-                  <QuestionMarkCircleIcon color='slate' style={{ width: 30, height: 30}}/>
-                  <a href='/help' className={'text-decoration-none text-black'}>Bantuan</a>
-                </center>
               </>
             )
           }
         </Accordion>
+        <div style={{marginTop:20, marginLeft:10}}>
+                  <QuestionMarkCircleIcon color='slate' style={{ width: 20, height: 20}}/>
+                  <a href='/help' className={'text-decoration-none text-black'}>Bantuan</a>
+                </div>
       </div>
     </div>
   )

@@ -190,10 +190,9 @@ const JobList = () => {
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
                                         <th>Tanggal</th>
+                                        <th>No. Job Request</th>
                                         <th>Pemohon</th>
                                         <th>Dept</th>
-                                        <th>Subject</th>
-                                        <th>Detail</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Opsi</th>
@@ -204,11 +203,10 @@ const JobList = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
-                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
+                                                <td>{new Date(value?.created_on).getDate() + "/" + new Date(value?.created_on).getMonth() + "/" + new Date(value?.created_on).getFullYear() + "/" + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
+                                                <td>{value?.id}/CIN_IT/{new Date(value?.created_on).getMonth()}/2022</td>
                                                 <td>{value?.req_by}</td>
                                                 <td>{value?.dept}</td>
-                                                <td>{value?.subject}</td>
-                                                <td>{value?.detail}</td>
                                                 <td>{value?.notes}</td>
                                                 <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
                                                 <td>

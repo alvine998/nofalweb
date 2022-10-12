@@ -28,7 +28,7 @@ const PrintComponentMail = forwardRef((props, ref) => {
                         <div className='container1'>
                             <h2 style={{ textAlign: "center" }}>
                                 FORMULIR EMAIL & FTP REQUEST<br />
-                                NO: 0{payload?.id}/EDP/2022
+                                NO: 0{payload?.id}/CIN-IT/{new Date(payload?.created_on).getMonth()}/2022
                             </h2>
                             <h2 style={{ marginInline: 20, marginBottom: 20 }}>
                                 DATE : {new Date(payload?.created_on).getDate() + " - " + new Date(payload?.created_on).getMonth() + " - " + new Date(payload?.created_on).getFullYear()}<br />

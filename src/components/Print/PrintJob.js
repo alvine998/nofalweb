@@ -28,7 +28,7 @@ const PrintComponent = forwardRef((props, ref) => {
                             <h2 style={{ textAlign: "center" }}>
                                 EDP JOB REQUEST<br />
                                 HARDWARE AND SOFTWARE<br />
-                                NO: 0{payload?.id}/EDP/2022
+                                NO: 0{payload?.id}/CIN-IT/{new Date(payload?.created_on).getMonth()}/2022
                             </h2>
                             <h2 style={{ marginInline: 20, marginBottom: 20 }}>
                                 DATE : {new Date(payload?.created_on).getDate() + " - " + new Date(payload?.created_on).getMonth() + " - " + new Date(payload?.created_on).getFullYear()}<br />

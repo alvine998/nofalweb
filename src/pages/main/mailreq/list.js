@@ -177,6 +177,7 @@ const ListMailReq = () => {
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
                                         <th>Tanggal</th>
+                                        <th>No. Email Request</th>
                                         <th>Dept</th>
                                         <th>Subject</th>
                                         <th>Detail</th>
@@ -191,7 +192,8 @@ const ListMailReq = () => {
                                         listJobs?.map((value, i) => (
                                             <tr key={i}>
                                                 <td>{i + 1}</td>
-                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
+                                                <td>{new Date(value?.created_on).getDate() + "/" + new Date(value?.created_on).getMonth() + "/" + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
+                                                <td>{value?.id}/CIN_IT/{new Date(value?.created_on).getMonth()}/2022</td>
                                                 <td>{value?.dept}</td>
                                                 <td>{value?.subject}</td>
                                                 <td>

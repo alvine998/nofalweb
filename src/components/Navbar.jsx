@@ -132,6 +132,7 @@ const Navbar = () => {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu>
+                                                <Dropdown.Item href="/main/dashboard">Dashboard</Dropdown.Item>
                                                 <Dropdown.Item href="/main/profil/user">Profil</Dropdown.Item>
                                                 <Dropdown.Item href="/main/profil/edit">Pengaturan Akun</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => { setToggle(true) }}>Keluar</Dropdown.Item>
