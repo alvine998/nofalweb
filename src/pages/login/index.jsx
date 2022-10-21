@@ -64,7 +64,7 @@ export default function Login() {
   return (
     <div className="bg-blue" style={{paddingInline:500, overflowY:"hidden"}}>
       <div className="box2">
-        <h2 className="text-center mt-5">Login Admin Crestec</h2>
+        <h2 className="text-center mt-5">Silahkan Masuk</h2>
         <form onSubmit={onLogin} action="#">
           <div>
             <label className="form-label">Username</label>

@@ -144,9 +144,9 @@ const EditProfil = ({ navigate }) => {
                                     </Col>
                                     <Col style={{ marginTop: 20 }}>
                                         <Form onSubmit={submitted} action="#">
-                                            <Input title={"Kata Sandi Lama"} name="password" handleChange={handleChange} placeholder="Masukkan kata sandi lama" />
-                                            <Input title={"Kata Sandi Baru"} name="new_password" handleChange={handleChange} placeholder="Masukkan kata sandi baru" />
-                                            <Input title={"Konfirmasi Kata Sandi Lama"} name="confirm_password" handleChange={handleChange} placeholder="Masukkan konfirmasi kata sandi baru" />
+                                            <Input title={"Kata Sandi Lama"} name="password" type={'password'} handleChange={handleChange} placeholder="Masukkan kata sandi lama" />
+                                            <Input title={"Kata Sandi Baru"} name="new_password" type={'password'} handleChange={handleChange} placeholder="Masukkan kata sandi baru" />
+                                            <Input title={"Konfirmasi Kata Sandi Lama"} type={'password'} name="confirm_password" handleChange={handleChange} placeholder="Masukkan konfirmasi kata sandi baru" />
                                             <div>
                                                 <a style={{ float: "right" }} href="#">Lupa kata sandi?</a>
                                             </div>

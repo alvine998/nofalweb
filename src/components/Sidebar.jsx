@@ -114,6 +114,10 @@ export default function Sidebar() {
             )
           }
         </Accordion>
+        <div style={{marginTop:20, marginLeft:10}}>
+                  <QuestionMarkCircleIcon color='slate' style={{ width: 20, height: 20}}/>
+                  <a href='/help' className={'text-decoration-none text-black'}>Bantuan</a>
+                </div>
       </div>
     </div>
   )

@@ -213,10 +213,9 @@ const JobList = () => {
                                     <tr className='justify-content-center align-items-center'>
                                         <th>No</th>
                                         <th>Tanggal</th>
+                                        <th>No. Job Request</th>
                                         <th>Pemohon</th>
                                         <th>Dept</th>
-                                        <th>Subject</th>
-                                        <th>Detail</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Opsi</th>
