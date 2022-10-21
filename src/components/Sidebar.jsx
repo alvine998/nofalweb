@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Accordion } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { logo, logo_bulat1, logo_bulat2, logo_rajawali } from '../assets'
-import { BiHelpCircle } from "react-icons/gi"; 
+import { BiHelpCircle } from "react-icons/gi";
 import './style.css'
 
 export default function Sidebar() {
@@ -80,12 +80,15 @@ export default function Sidebar() {
                     <a href='/main/regis/penyimpanan' onClick={() => setOpenKey(1)} className={window.location.pathname == '/main/regis/penyimpanan' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>Registrasi Penyimpanan</a>
                   </Accordion.Body>
                   <Accordion.Body className={window.location.pathname == '/help' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
-                  <a class={window.location.pathname == '/help' ? "nav-link active" : "nav-link"} href="/help">Bantuan</a>
+                    <a class={window.location.pathname == '/help' ? "nav-link active" : "nav-link"} href="/help">Bantuan</a>
                   </Accordion.Body>
                 </Accordion.Item>
 
                 <Accordion.Item eventKey={'2'}>
                   <Accordion.Header>Daftar Kerja</Accordion.Header>
+                  <Accordion.Body className={window.location.pathname == '/main/work/user/list' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
+                    <a href='/main/work/user/list' onClick={() => setOpenKey(2)} className={window.location.pathname == '/main/work/user/list' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>List Data Pengguna</a>
+                  </Accordion.Body>
                   <Accordion.Body className={window.location.pathname == '/main/work/job/list' ? 'bg-primary p-2' : 'p-2 bg-primary-hover'}>
                     <a href='/main/work/job/list' onClick={() => setOpenKey(2)} className={window.location.pathname == '/main/work/job/list' ? 'text-decoration-none text-white' : 'text-decoration-none text-black'}>List Job Request</a>
                   </Accordion.Body>
@@ -103,8 +106,8 @@ export default function Sidebar() {
                   </Accordion.Body>
                 </Accordion.Item>
 
-                <center style={{marginTop:20}}>
-                  <QuestionMarkCircleIcon color='slate' style={{ width: 30, height: 30}}/>
+                <center style={{ marginTop: 20 }}>
+                  <QuestionMarkCircleIcon color='slate' style={{ width: 30, height: 30 }} />
                   <a href='/help' className={'text-decoration-none text-black'}>Bantuan</a>
                 </center>
               </>

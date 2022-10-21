@@ -1,35 +1,55 @@
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Form, Modal, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { Input, InputArea, Select } from '../../../components/Input';
 import Layout from '../../../components/Layout'
-import './user.css'
-import Table from 'react-bootstrap/Table'
-import Nav from 'react-bootstrap/Nav'
-import axios from 'axios'
-import { Breadcrumb, Button, Modal } from 'react-bootstrap'
-import Swal from 'sweetalert2'
+import { jsPDF } from 'jspdf'
+import { logo_biru } from '../../../assets';
+import ReactToPrint from 'react-to-print';
+import { PrintComponent } from '../../../components/Print/PrintJob';
 
-const UserPage = () => {
-    const [user, setUser] = useState([])
-    const [search, setSearch] = useState()
-    const [role, setRole] = useState()
-    const [dataToggle, setDataToggle] = useState()
-    const [toggle, setToggle] = useState()
-    const [session, setSession] = useState()
+const PrintWrapper = ({ item }) => {
+    const componentRef = useRef()
 
+    return (
+        <>
+            <ReactToPrint
+                trigger={() => <button className='btn btn-warning btn-sm w-100'>Print</button>}
+                content={() => componentRef.current}
+            />
+            <PrintComponent ref={componentRef} data={item} />
+        </>
+    )
+}
+
+const UserList = () => {
+
+    const [show, setShow] = useState(false)
+    const [payload, setPayload] = useState()
+    const [selected, setSelected] = useState()
+    const [user, setuser] = useState()
+    const [listJobs, setListJobs] = useState([])
+    const [toggle, setToggle] = useState(false)
+    const [rejectToggle, setRejectToggle] = useState(false)
+
+    const navigate = useNavigate()
     const getSession = async () => {
         const data = await JSON.parse(localStorage.getItem('logSession'))
-        const session = await JSON.parse(localStorage.getItem('session'))
-        setSession(session)
-        getDataUser(session)
+        console.log("Session : ", data);
+        if (!data) {
+            return navigate("/")
+        } else {
+            setuser(data)
+        }
+        getData(data?.id)
     }
 
-    const getDataUser = async (session) => {
+    const getData = async (id) => {
         try {
-            const result = await axios.get(`https://api.rajawali-pro.kinikumuda.id/users/list?search=${search || ''}&role=${role || ''}`, {
-                withCredentials: false,
-                headers: { 'x-admin-token': session?.token, 'Access-Control-Allow-Origin': '*' }
-            })
-            setUser(result.data)
-            console.log(result.data);
+            const result = await axios.get(`http://localhost:6001/users/list`)
+            setListJobs(result.data)
         } catch (error) {
             console.log(error);
         }
@@ -37,125 +57,257 @@ const UserPage = () => {
 
     useEffect(() => {
         getSession()
-    }, [search, role])
+    }, [])
+
+    const handleOptions = [
+        { value: '', label: "Dikerjakan Oleh" },
+        { value: 'EDP', label: "EDP" },
+        { value: 'Service', label: "Service" },
+        { value: 'Maintenance', label: "Maintenance" },
+        { value: 'Sendiri', label: "Sendiri" },
+    ]
+
+    const SoftwareOptions = [
+        { value: '', label: 'Detail Software' },
+        { value: 'OS/Office', label: 'OS/Office' },
+        { value: 'Anti Virus', label: 'Anti Virus' },
+        { value: 'OPIS Sistem', label: 'OPIS Sistem' },
+        { value: 'ACCPAC', label: 'ACCPAC' },
+    ]
+
+    const HardwareOptions = [
+        { value: '', label: 'Detail Hardware' },
+        { value: 'CPU', label: 'CPU' },
+        { value: 'Monitor', label: 'Monitor' },
+        { value: 'Masalah Printer', label: 'Masalah Printer' },
+        { value: 'Lainnya', label: 'Lainnya' },
+    ]
+
+    const PrinterOptions = [
+        { value: '', label: 'Detail Printer' },
+        { value: 'Paper Jam', label: 'Paper Jam' },
+        { value: 'Head Printer', label: 'Head Printer' },
+        { value: 'Lainnya', label: 'Lainnya' }
+    ]
+
+    const approval = async (id) => {
+        const data = {
+            status: 1,
+            modified_on: new Date()
+        }
+        console.log(data)
+        try {
+            const result = await axios.patch(`http://localhost:6001/jobs/status?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setShow(false)
+            setPayload()
+            Swal.fire({
+                text: "Data Berhasil Disetujui",
+                icon: "success"
+            })
+            getSession()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Data Gagal Disetujui",
+                icon: "error"
+            })
+        }
+    }
+
+    const reject = async (id) => {
+        const data = {
+            status: 2,
+            modified_on: new Date(),
+            notes: payload?.notes
+        }
+        console.log(data)
+        try {
+            const result = await axios.patch(`http://localhost:6001/jobs/status?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setRejectToggle(false)
+            setPayload()
+            Swal.fire({
+                text: "Data Berhasil Ditolak",
+                icon: "success"
+            })
+            getData()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Data Gagal Ditolak",
+                icon: "error"
+            })
+        }
+    }
+
+    const ondone = async (id, name) => {
+        const data = {
+            accepted_by: name,
+            result: payload?.result,
+            work_by: payload?.work_by,
+            approved_by: payload?.approved_by,
+            notes: payload?.notes,
+            status: 3,
+            modified_on: new Date()
+        }
+        try {
+            const result = await axios.patch(`http://localhost:6001/jobs/done?id=${id}`, data, { headers: 'Access-Control-Allow-Origin : *', withCredentials: false })
+            setToggle(false)
+            setPayload()
+            Swal.fire({
+                text: "Data Berhasil Diupdate",
+                icon: "success"
+            })
+            getData()
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                text: "Data Gagal Diupdate",
+                icon: "error"
+            })
+        }
+    }
+
+    const handleChange = (e) => {
+        setPayload({ ...payload, [e.target.name]: e.target.value })
+    }
+
+    const resultOptions = [
+        { value: '', label: 'Pilih Hasil' },
+        { value: 'Ok', label: 'Ok' },
+        { value: 'Not Ok', label: 'Not Ok' },
+    ]
 
     return (
         <>
             <Layout>
-                <h2 style={{ fontSize: 24 }}>Data Pengguna</h2>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="/main/dashboard">Dashboard</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Pengguna</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Data Pengguna</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className='row'>
-                    <div className='col-md'>
+                <div style={{ padding: 20 }}>
+                    <h2 style={{ fontSize: 30 }}>List Data Pengguna</h2>
+                    <div style={{ padding: 20 }}>
 
-                    </div>
-                    <div className='col-md'>
+                        <div>
+                            <Table striped bordered hover responsive className='mt-2'>
+                                <thead>
+                                    <tr className='justify-content-center align-items-center'>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Divisi</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Peran</th>
+                                        {/* <th>Status</th> */}
+                                        {/* <th>Opsi</th> */}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        listJobs?.map((value, i) => (
+                                            <tr key={i}>
+                                                <td>{i + 1}</td>
+                                                <td>{value?.fullname}</td>
+                                                <td>{value?.division}</td>
+                                                <td>{value?.gender == "L" ? "Laki-laki" : "Perempuan"}</td>
+                                                <td>{value?.username}</td>
+                                                <td>{value?.email}</td>
+                                                <td>{value?.role}</td>
+                                                {/* <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td> */}
+                                                <td>
+                                                    {
+                                                        value?.status == 0 ?
+                                                            <button onClick={() => { setShow(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Lihat</button>
+                                                            :
+                                                            value?.status == 1 ?
+                                                                <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
+                                                                : value?.status == 3 ?
+                                                                    <>
+                                                                        <PrintWrapper item={value} key={i} />
+                                                                    </>
+                                                                    : ''
+                                                    }
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
 
-                    </div>
-                    <div className='col-md'>
-                        <select onChange={(e) => setRole(e.target.value)} value={role} className='form-select'>
-                            <option value={""}>Semua Posisi</option>
-                            <option value={"customer"}>Customer</option>
-                            <option value={"partner"}>Mitra</option>
-                        </select>
-                    </div>
-                    <div className='col-md'>
-                        <input type={'text'} placeholder="Cari disini..." onChange={(e) => { setSearch(e.target.value) }} value={search} className="form-control" />
+                        {
+                            toggle ? (
+                                <>
+                                    <Modal show={toggle} onHide={() => { setToggle(!toggle) }}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Update Data Job Request</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <Form>
+                                                {/* <Input title={"Request By"} defaultValue={payload?.} placeholder="Nama Pengguna" name={"req_by"} handleChange={handleChange} /> */}
+                                                <input type='hidden' name='user_id' value={user?.id} onChange={handleChange} />
+                                                <Select data={resultOptions} defaultValue={payload?.result} name="result" title={"Hasil"} required handleChange={handleChange} />
+                                                <Select title={"Diperbaiki/Dipasang Oleh"} name={"work_by"} handleChange={handleChange} data={handleOptions} />
+                                                <InputArea title={"Keterangan"} placeholder="Silahkan Tulis Keterangan Disini" name={"notes"} handleChange={handleChange} />
+                                            </Form>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={() => { setToggle(!toggle) }}>
+                                                Batalkan
+                                            </Button>
+                                            <Button variant="primary" onClick={() => { ondone(payload?.id, user?.fullname) }} >
+                                                Selesai
+                                            </Button>
+                                        </Modal.Footer>
+                                    </Modal>
+                                </>
+                            ) : ''
+                        }
+
+                        <Modal show={show} onHide={() => { setShow(!show) }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Detail Data Job Request</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <p>Request By : {payload?.req_by}</p>
+                                    <p>Dept/Section : {payload?.dept}</p>
+                                    <p>Subject : {payload?.subject}</p>
+                                    <p>Detail : {payload?.detail}</p>
+                                    <p>Keterangan : {payload?.notes}</p>
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => { setShow(!show) }}>
+                                    Batalkan
+                                </Button>
+                                <Button onClick={() => { setRejectToggle(!rejectToggle); setShow(!show) }} variant="danger">
+                                    Tolak
+                                </Button>
+                                <Button onClick={() => { approval(payload?.id) }} variant="success">
+                                    Terima
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+
+                        <Modal show={rejectToggle} onHide={() => { setRejectToggle(!rejectToggle) }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Detail Data Job Request</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <InputArea title={"Keterangan"} handleChange={handleChange} name="notes" required={true} placeholder="Masukkan keterangan" />
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => { setRejectToggle(!rejectToggle) }}>
+                                    Batalkan
+                                </Button>
+                                <Button onClick={() => { reject(payload?.id) }} variant="danger">
+                                    Tolak
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
-                <Table striped bordered hover className='mt-2'>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>No Telepon</th>
-                            <th>Alamat</th>
-                            <th>Posisi</th>
-                            <th className='text-center'>Keterangan</th>
-                            <th className='text-center'>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            user.length > 0 ?
-                                user.map((data, index) => (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{data?.name}</td>
-                                        <td>{data?.phone}</td>
-                                        <td>{data?.address}</td>
-                                        <td>{data?.role == 'partner' ? 'Mitra' : 'Customer'}</td>
-                                        <td className='text-center'>{data?.description || "-"}</td>
-                                        <td className='text-center'>
-                                            <Button onClick={() => { setToggle(true); setDataToggle(data) }} variant='danger' size='sm'>Non Aktifkan</Button>
-                                        </td>
-                                    </tr>
-                                )) : <div className='p-4'>
-                                    <p>Data tidak ditemukan</p>
-                                </div>
-                        }
-                    </tbody>
-                </Table>
-                {
-                    toggle ?
-                        <BannedOne session={session} data={dataToggle} toggle={toggle} setToggle={setToggle} reloadData={getSession} /> : ""
-                }
             </Layout>
         </>
     )
 }
 
-const BannedOne = ({ session, data, toggle, setToggle, reloadData }) => {
-    const banned = async () => {
-        const payload = {
-            id: data?.id,
-            deleted: 1
-        }
-        try {
-            const result = await axios.post(`https://api.rajawali-pro.kinikumuda.id/users/update/status`, payload, {
-                withCredentials: false,
-                headers: { 'x-admin-token': session.token, 'Access-Control-Allow-Origin': '*' }
-            })
-            console.log(result.data);
-            reloadData()
-            setToggle(!toggle)
-            Swal.fire({
-                text: "Berhasil Menonaktifkan Pengguna",
-                icon: "success"
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    return (
-        <>
-            <Modal
-                size="md"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                show={toggle}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Non Aktifkan Pengguna
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>
-                        Apakah anda yakin ingin menonaktifkan {data?.name} ?
-                    </p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant='danger' onClick={banned}>Non Aktifkan</Button>
-                    <Button variant='warning' onClick={() => setToggle(!toggle)}>Tutup</Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    )
-}
-
-export default UserPage
+export default UserList

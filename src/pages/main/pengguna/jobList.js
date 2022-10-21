@@ -33,6 +33,7 @@ const JobList = () => {
     const [listJobs, setListJobs] = useState([])
     const [toggle, setToggle] = useState(false)
     const [rejectToggle, setRejectToggle] = useState(false)
+    const [selectMonth, setSelectMonth] = useState()
 
     const navigate = useNavigate()
     const getSession = async () => {
@@ -48,7 +49,7 @@ const JobList = () => {
 
     const getData = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:6001/jobs/list`)
+            const result = await axios.get(`http://localhost:6001/jobs/list?start_date=${selectMonth ? ("2022-" + selectMonth + "-01") : ''}&end_date=${selectMonth ? (selectMonth % 2 == 0 ? "2022-" + selectMonth + "-30" : "2022-" + selectMonth + "-31") : ""}`)
             setListJobs(result.data)
         } catch (error) {
             console.log(error);
@@ -57,7 +58,7 @@ const JobList = () => {
 
     useEffect(() => {
         getSession()
-    }, [])
+    }, [selectMonth])
 
     const handleOptions = [
         { value: '', label: "Dikerjakan Oleh" },
@@ -177,13 +178,35 @@ const JobList = () => {
         { value: 'Not Ok', label: 'Not Ok' },
     ]
 
+    const months = [
+        { value: 1, label: 'Januari' },
+        { value: 2, label: 'Februari' },
+        { value: 3, label: 'Maret' },
+        { value: 4, label: 'April' },
+        { value: 5, label: 'Mei' },
+        { value: 6, label: 'Juni' },
+        { value: 7, label: 'Juli' },
+        { value: 8, label: 'Agustus' },
+        { value: 9, label: 'September' },
+        { value: 10, label: 'Oktober' },
+        { value: 11, label: 'November' },
+        { value: 12, label: 'Desember' },
+    ]
+
     return (
         <>
             <Layout>
                 <div style={{ padding: 20 }}>
                     <h2 style={{ fontSize: 30 }}>List Job Request</h2>
                     <div style={{ padding: 20 }}>
-
+                        <div>
+                            <select value={selectMonth} onChange={(e) => setSelectMonth(e.target.value)} className='form-select' style={{ width: 250 }}>
+                                <option value={""}>Semua Bulan</option>
+                                {
+                                    months?.map((val) => <option value={val?.value} >{val?.label}</option>)
+                                }
+                            </select>
+                        </div>
                         <div>
                             <Table striped bordered hover responsive className='mt-2'>
                                 <thead>
@@ -201,32 +224,34 @@ const JobList = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        listJobs?.map((value, i) => (
-                                            <tr key={i}>
-                                                <td>{i + 1}</td>
-                                                <td>{new Date(value?.created_on).getDate() + " - " + new Date(value?.created_on).getMonth() + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
-                                                <td>{value?.req_by}</td>
-                                                <td>{value?.dept}</td>
-                                                <td>{value?.subject}</td>
-                                                <td>{value?.detail}</td>
-                                                <td>{value?.notes}</td>
-                                                <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
-                                                <td>
-                                                    {
-                                                        value?.status == 0 ?
-                                                            <button onClick={() => { setShow(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Lihat</button>
-                                                            :
-                                                            value?.status == 1 ?
-                                                                <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
-                                                                : value?.status == 3 ?
-                                                                    <>
-                                                                        <PrintWrapper item={value} key={i} />
-                                                                    </>
-                                                                    : ''
-                                                    }
-                                                </td>
-                                            </tr>
-                                        ))
+                                        listJobs?.length > 0 ?
+                                            listJobs?.map((value, i) => (
+                                                <tr key={i}>
+                                                    <td>{i + 1}</td>
+                                                    <td>{new Date(value?.created_on).getDate() + " - " + (parseInt(new Date(value?.created_on).getMonth()) + 1) + " - " + new Date(value?.created_on).getFullYear() + " . " + new Date(value?.created_on).getHours() + ":" + new Date(value?.created_on).getMinutes() + ":" + new Date(value?.created_on).getSeconds()}</td>
+                                                    <td>{value?.req_by}</td>
+                                                    <td>{value?.dept}</td>
+                                                    <td>{value?.subject}</td>
+                                                    <td>{value?.detail}</td>
+                                                    <td>{value?.notes}</td>
+                                                    <td>{value?.status == 0 ? 'Menunggu' : value?.status == 1 ? 'Disetujui' : value?.status == 3 ? 'Selesai' : value?.status == 3 ? 'Selesai' : 'Ditolak'}</td>
+                                                    <td>
+                                                        {
+                                                            value?.status == 0 ?
+                                                                <button onClick={() => { setShow(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Lihat</button>
+                                                                :
+                                                                value?.status == 1 ?
+                                                                    <button onClick={() => { setToggle(true); setPayload(value) }} className='btn btn-warning btn-sm w-100'>Update</button>
+                                                                    : value?.status == 3 ?
+                                                                        <>
+                                                                            <PrintWrapper item={value} key={i} />
+                                                                        </>
+                                                                        : ''
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        : <p>Data tidak ditemukan</p>
                                     }
                                 </tbody>
                             </Table>
